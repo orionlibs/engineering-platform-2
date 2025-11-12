@@ -1,0 +1,36 @@
+package com.dimi.core.json;
+
+import tools.jackson.core.JacksonException;
+
+public final class JSONService
+{
+    private JSONService()
+    {
+    }
+
+
+    public static String convertObjectToJSON(Object objectToConvert)
+    {
+        try
+        {
+            return JSONMapper.getMapper().writeValueAsString(objectToConvert);
+        }
+        catch(JacksonException e)
+        {
+            return "";
+        }
+    }
+
+
+    public static Object convertJSONToObject(String jsonData, Class<?> classToConvertTo)
+    {
+        try
+        {
+            return JSONMapper.getMapper().readValue(jsonData, classToConvertTo);
+        }
+        catch(JacksonException e)
+        {
+            return "";
+        }
+    }
+}

@@ -1,0 +1,156 @@
+package com.dimi.project.project;
+
+import com.dimi.core.data.DuplicateRecordException;
+import com.dimi.core.exception.AError;
+import com.dimi.project.api.project.CreateProjectAPI.NewProjectRequest;
+import com.dimi.project.api.project.UpdateProjectAPI.UpdateProjectRequest;
+import com.dimi.project.model.project.ProjectModel;
+import com.dimi.project.model.project.ProjectType;
+import com.dimi.project.model.project.ProjectsDAO;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class ProjectService
+{
+    @Autowired private ProjectsDAO dao;
+
+
+    @Transactional
+    public CreateProjectResult createProject(NewProjectRequest request)
+    {
+        ProjectModel project = new ProjectModel(request.getName(), request.getCode(), request.getType(), request.getDescription(), request.getAvatarURL());
+        try
+        {
+            return CreateProjectResult.builder()
+                            .project(save(project))
+                            .build();
+        }
+        catch(DuplicateRecordException e)
+        {
+            AError error = new AError<>();
+            error.setErrorCode(ProjectError.PROJECT_ALREADY_EXISTS);
+            return CreateProjectResult.builder()
+                            .error(error)
+                            .build();
+        }
+    }
+
+
+    @Transactional
+    public UpdateProjectResult updateProject(UUID projectID, UpdateProjectRequest request)
+    {
+        Optional<ProjectModel> wrap = getByID(projectID);
+        if(wrap.isPresent())
+        {
+            ProjectModel project = wrap.get();
+            project.setName(request.getName());
+            project.setCode(request.getCode());
+            project.setType(request.getType());
+            project.setDescription(request.getDescription());
+            try
+            {
+                return UpdateProjectResult.builder()
+                                .project(save(project))
+                                .build();
+            }
+            catch(DuplicateRecordException e)
+            {
+                AError error = new AError<>();
+                error.setErrorCode(ProjectError.PROJECT_ALREADY_EXISTS);
+                return UpdateProjectResult.builder()
+                                .error(error)
+                                .build();
+            }
+        }
+        else
+        {
+            AError error = new AError<>();
+            error.setErrorCode(ProjectError.PROJECT_NOT_FOUND);
+            return UpdateProjectResult.builder()
+                            .error(error)
+                            .build();
+        }
+    }
+
+
+    @Transactional
+    public UpdateProjectAvatarResult updateAvatar(UUID projectID, String avatarURL)
+    {
+        Optional<ProjectModel> wrap = getByID(projectID);
+        if(wrap.isPresent())
+        {
+            ProjectModel project = wrap.get();
+            project.setAvatarURL(avatarURL);
+            return UpdateProjectAvatarResult.builder()
+                            .project(save(project))
+                            .build();
+        }
+        else
+        {
+            AError error = new AError<>();
+            error.setErrorCode(ProjectError.PROJECT_NOT_FOUND);
+            return UpdateProjectAvatarResult.builder()
+                            .error(error)
+                            .build();
+        }
+    }
+
+
+    @Transactional
+    public UpdateProjectManagerResult updateManager(UUID projectID, UUID managerUserID)
+    {
+        Optional<ProjectModel> wrap = getByID(projectID);
+        if(wrap.isPresent())
+        {
+            ProjectModel project = wrap.get();
+            project.setManagerUserID(managerUserID);
+            return UpdateProjectManagerResult.builder()
+                            .project(save(project))
+                            .build();
+        }
+        else
+        {
+            AError error = new AError<>();
+            error.setErrorCode(ProjectError.PROJECT_NOT_FOUND);
+            return UpdateProjectManagerResult.builder()
+                            .error(error)
+                            .build();
+        }
+    }
+
+
+    @Transactional
+    public ProjectModel save(ProjectModel projectModel)
+    {
+        return dao.save(projectModel);
+    }
+
+
+    public Optional<ProjectModel> getByID(UUID projectID)
+    {
+        return dao.findById(projectID);
+    }
+
+
+    public List<ProjectModel> getByType(ProjectType.Type projectType)
+    {
+        return dao.findAllByType(projectType);
+    }
+
+
+    public void delete(UUID projectID)
+    {
+        dao.deleteById(projectID);
+    }
+
+
+    public void deleteAll()
+    {
+        dao.deleteAll();
+    }
+}
