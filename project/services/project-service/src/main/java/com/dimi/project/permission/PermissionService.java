@@ -64,7 +64,7 @@ public class PermissionService
                 error.setErrorCode(PermissionError.PERMISSION_ALREADY_EXISTS);
                 return AssignPermissionToUserResult.builder()
                                 .error(error)
-                                .build();
+                                .build();//test
             }
             else
             {
