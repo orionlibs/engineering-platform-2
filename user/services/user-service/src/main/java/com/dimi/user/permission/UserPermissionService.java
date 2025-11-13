@@ -1,7 +1,6 @@
 package com.dimi.user.permission;
 
 import com.dimi.core.data.DuplicateRecordException;
-import com.dimi.core.exception.AError;
 import com.dimi.user.api.permission.CreateUserPermissionAPI.NewUserPermissionRequest;
 import com.dimi.user.model.UserPermissionModel;
 import com.dimi.user.model.UserPermissionsDAO;
@@ -9,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,17 +24,15 @@ public class UserPermissionService
         UserPermissionModel model = new UserPermissionModel(request.getName(), request.getDescription());
         try
         {
+            UserPermissionModel saved = save(model);
+            dao.flush();
             return CreatePermissionResult.builder()
-                            .permission(save(model))
+                            .permission(saved)
                             .build();
         }
-        catch(DuplicateRecordException e)
+        catch(DataIntegrityViolationException e)
         {
-            AError error = new AError<>();
-            error.setErrorCode(UserPermissionError.USER_PERMISSION_ALREADY_EXISTS);
-            return CreatePermissionResult.builder()
-                            .error(error)
-                            .build();
+            throw new DuplicateRecordException(UserPermissionError.USER_PERMISSION_ALREADY_EXISTS);
         }
     }
 

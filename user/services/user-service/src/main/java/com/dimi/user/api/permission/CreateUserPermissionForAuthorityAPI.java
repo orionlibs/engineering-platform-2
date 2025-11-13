@@ -35,11 +35,7 @@ public class CreateUserPermissionForAuthorityAPI
         {
             APIResponse response = new APIResponse();
             response.setError(result.getError());
-            if(result.getError().getErrorCode().equals(UserPermissionPerAuthorityError.USER_PERMISSION_ALREADY_EXISTS_FOR_AUTHORITY))
-            {
-                return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(response);
-            }
-            else if(result.getError().getErrorCode().equals(UserPermissionPerAuthorityError.USER_PERMISSION_OR_AUTHORITY_NOT_FOUND))
+            if(result.getError().getErrorCode().equals(UserPermissionPerAuthorityError.USER_PERMISSION_OR_AUTHORITY_NOT_FOUND))
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);
             }

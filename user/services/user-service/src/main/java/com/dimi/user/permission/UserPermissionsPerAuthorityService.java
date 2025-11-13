@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,17 +34,15 @@ public class UserPermissionsPerAuthorityService
             UserPermissionsPerAuthorityModel model = new UserPermissionsPerAuthorityModel(permission.get(), authority.get());
             try
             {
+                UserPermissionsPerAuthorityModel saved = save(model);
+                dao.flush();
                 return CreatePermissionForAuthorityResult.builder()
-                                .permission(save(model))
+                                .permission(saved)
                                 .build();
             }
-            catch(DuplicateRecordException e)
+            catch(DataIntegrityViolationException e)
             {
-                AError error = new AError<>();
-                error.setErrorCode(UserPermissionPerAuthorityError.USER_PERMISSION_ALREADY_EXISTS_FOR_AUTHORITY);
-                return CreatePermissionForAuthorityResult.builder()
-                                .error(error)
-                                .build();
+                throw new DuplicateRecordException(UserPermissionPerAuthorityError.USER_PERMISSION_ALREADY_EXISTS_FOR_AUTHORITY);
             }
         }
         else

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,20 +24,18 @@ public class ProjectService
     @Transactional
     public CreateProjectResult createProject(NewProjectRequest request)
     {
-        ProjectModel project = new ProjectModel(request.getName(), request.getCode(), request.getType(), request.getDescription(), request.getAvatarURL());
+        ProjectModel model = new ProjectModel(request.getName(), request.getCode(), request.getType(), request.getDescription(), request.getAvatarURL());
         try
         {
+            ProjectModel saved = save(model);
+            dao.flush();
             return CreateProjectResult.builder()
-                            .project(save(project))
+                            .project(saved)
                             .build();
         }
-        catch(DuplicateRecordException e)
+        catch(DataIntegrityViolationException e)
         {
-            AError error = new AError<>();
-            error.setErrorCode(ProjectError.PROJECT_ALREADY_EXISTS);
-            return CreateProjectResult.builder()
-                            .error(error)
-                            .build();
+            throw new DuplicateRecordException(ProjectError.PROJECT_ALREADY_EXISTS);
         }
     }
 
@@ -54,17 +53,15 @@ public class ProjectService
             project.setDescription(request.getDescription());
             try
             {
+                ProjectModel saved = save(project);
+                dao.flush();
                 return UpdateProjectResult.builder()
-                                .project(save(project))
+                                .project(saved)
                                 .build();
             }
-            catch(DuplicateRecordException e)
+            catch(DataIntegrityViolationException e)
             {
-                AError error = new AError<>();
-                error.setErrorCode(ProjectError.PROJECT_ALREADY_EXISTS);
-                return UpdateProjectResult.builder()
-                                .error(error)
-                                .build();
+                throw new DuplicateRecordException(ProjectError.PROJECT_ALREADY_EXISTS);
             }
         }
         else

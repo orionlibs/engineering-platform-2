@@ -30,10 +30,6 @@ public class AddProjectToGroupAPI
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);
             }
-            else if(result.getError().getErrorCode().equals(ProjectGroupMemberError.PROJECT_IS_ALREADY_MEMBER_OF_GROUP))
-            {
-                return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(response);
-            }
         }
         return ResponseEntity.created(null).body(new APIResponse());
     }

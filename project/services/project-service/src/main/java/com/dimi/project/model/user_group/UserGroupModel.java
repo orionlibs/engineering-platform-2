@@ -1,6 +1,5 @@
 package com.dimi.project.model.user_group;
 
-import com.dimi.project.model.project.permission.PermissionAssignedToUserModel;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,7 +35,7 @@ public class UserGroupModel
     @Lob
     @Column(columnDefinition = "TEXT")
     private String description;
-    @OneToMany(mappedBy = "user_group", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "userGroup", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<UserInUserGroupModel> userAssignedToUserGroup = new ArrayList<>();
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)

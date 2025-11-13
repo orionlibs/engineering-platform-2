@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,17 +36,15 @@ public class PermissionService
         PermissionModel model = new PermissionModel(request.getName(), request.getDescription());
         try
         {
+            PermissionModel saved = save(model);
+            dao.flush();
             return CreatePermissionResult.builder()
-                            .permission(save(model))
+                            .permission(saved)
                             .build();
         }
-        catch(DuplicateRecordException e)
+        catch(DataIntegrityViolationException e)
         {
-            AError error = new AError<>();
-            error.setErrorCode(PermissionError.PERMISSION_ALREADY_EXISTS);
-            return CreatePermissionResult.builder()
-                            .error(error)
-                            .build();
+            throw new DuplicateRecordException(PermissionError.PERMISSION_ALREADY_EXISTS);
         }
     }
 
@@ -57,21 +56,18 @@ public class PermissionService
         if(permissionWrap.isPresent())
         {
             PermissionModel permission = permissionWrap.get();
-            Optional<PermissionAssignedToUserModel> permissionAssignedToUserWrap = permissionsAssignedToUsersDAO.findByPermissionAndUserID(permission, request.getUserID());
-            if(permissionAssignedToUserWrap.isPresent())
-            {
-                AError error = new AError<>();
-                error.setErrorCode(PermissionError.PERMISSION_ALREADY_EXISTS);
-                return AssignPermissionToUserResult.builder()
-                                .error(error)
-                                .build();//test
-            }
-            else
+            try
             {
                 PermissionAssignedToUserModel model = new PermissionAssignedToUserModel(permission, request.getUserID());
+                PermissionAssignedToUserModel saved = permissionsAssignedToUsersDAO.save(model);
+                permissionsAssignedToUsersDAO.flush();
                 return AssignPermissionToUserResult.builder()
-                                .permission(permissionsAssignedToUsersDAO.save(model))
+                                .permission(saved)
                                 .build();
+            }
+            catch(DataIntegrityViolationException e)
+            {
+                throw new DuplicateRecordException(PermissionError.PERMISSION_ALREADY_EXISTS);
             }
         }
         else

@@ -1,8 +1,8 @@
 package com.dimi.project.api.project;
 
 import com.dimi.core.api.APIResponse;
-import com.dimi.project.project.ProjectService;
 import com.dimi.project.model.project.ProjectType;
+import com.dimi.project.project.ProjectService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

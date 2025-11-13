@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,17 +34,15 @@ public class ProjectGroupMemberService
             ProjectGroupMemberModel projectGroupMember = new ProjectGroupMemberModel(project.get(), projectGroup.get());
             try
             {
+                ProjectGroupMemberModel saved = save(projectGroupMember);
+                dao.flush();
                 return AddProjectToGroupResult.builder()
-                                .projectGroupMember(save(projectGroupMember))
+                                .projectGroupMember(saved)
                                 .build();
             }
-            catch(DuplicateRecordException e)
+            catch(DataIntegrityViolationException e)
             {
-                AError error = new AError<>();
-                error.setErrorCode(ProjectGroupMemberError.PROJECT_IS_ALREADY_MEMBER_OF_GROUP);
-                return AddProjectToGroupResult.builder()
-                                .error(error)
-                                .build();
+                throw new DuplicateRecordException(ProjectGroupMemberError.PROJECT_IS_ALREADY_MEMBER_OF_GROUP);
             }
         }
         else

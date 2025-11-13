@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,16 +28,7 @@ public class CreateUserAuthorityAPI
     public ResponseEntity<APIResponse> createUserAuthority(@Valid @RequestBody NewUserAuthorityRequest request)
     {
         CreateAuthorityResult result = userAuthorityService.createAuthority(request);
-        if(result.getError() != null)
-        {
-            APIResponse response = new APIResponse();
-            response.setError(result.getError());
-            return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(response);
-        }
-        else
-        {
-            return ResponseEntity.created(null).body(new APIResponse());
-        }
+        return ResponseEntity.created(null).body(new APIResponse());
     }
 
 

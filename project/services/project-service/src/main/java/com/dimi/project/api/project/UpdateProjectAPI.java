@@ -42,10 +42,6 @@ public class UpdateProjectAPI
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);
             }
-            else if(result.getError().getErrorCode().equals(ProjectError.PROJECT_ALREADY_EXISTS))
-            {
-                return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(response);
-            }
         }
         return ResponseEntity.ok(new APIResponse());
     }

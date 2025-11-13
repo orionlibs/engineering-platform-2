@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,18 +41,15 @@ public class UserService
             UserModel user = new UserModel(request.getUsername(), authorities);
             try
             {
+                UserModel saved = save(user);
+                dao.flush();
                 return CreateUserResult.builder()
-                                .user(save(user))
+                                .user(saved)
                                 .build();
             }
-            catch(DuplicateRecordException e)
+            catch(DataIntegrityViolationException e)
             {
-                AError error = new AError<>();
-                error.setErrorCode(UserError.USER_ALREADY_EXISTS);
-                error.setErrorMessage(request.getUsername() + " already exists");
-                return CreateUserResult.builder()
-                                .error(error)
-                                .build();
+                throw new DuplicateRecordException(UserError.USER_ALREADY_EXISTS);
             }
         }
         else
@@ -75,18 +73,15 @@ public class UserService
             user.setUsername(request.getUsername());
             try
             {
+                UserModel saved = save(user);
+                dao.flush();
                 return UpdateUserResult.builder()
-                                .user(save(user))
+                                .user(saved)
                                 .build();
             }
-            catch(DuplicateRecordException e)
+            catch(DataIntegrityViolationException e)
             {
-                AError error = new AError<>();
-                error.setErrorCode(UserError.USER_ALREADY_EXISTS);
-                error.setErrorMessage(request.getUsername() + " already exists");
-                return UpdateUserResult.builder()
-                                .error(error)
-                                .build();
+                throw new DuplicateRecordException(UserError.USER_ALREADY_EXISTS);
             }
         }
         else

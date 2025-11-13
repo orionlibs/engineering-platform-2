@@ -40,10 +40,6 @@ public class UpdateProjectGroupAPI
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);
             }
-            else if(result.getError().getErrorCode().equals(ProjectGroupError.PROJECT_GROUP_ALREADY_EXISTS))
-            {
-                return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(response);
-            }
         }
         return ResponseEntity.ok(new APIResponse());
     }

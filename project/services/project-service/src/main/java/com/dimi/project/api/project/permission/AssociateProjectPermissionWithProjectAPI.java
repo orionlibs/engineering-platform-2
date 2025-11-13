@@ -28,11 +28,7 @@ public class AssociateProjectPermissionWithProjectAPI
         {
             APIResponse response = new APIResponse();
             response.setError(result.getError());
-            if(result.getError().getErrorCode().equals(PermissionError.PERMISSION_ALREADY_EXISTS))
-            {
-                return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(response);
-            }
-            else if(result.getError().getErrorCode().equals(PermissionError.PERMISSION_NOT_FOUND))
+            if(result.getError().getErrorCode().equals(PermissionError.PERMISSION_NOT_FOUND))
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);
             }

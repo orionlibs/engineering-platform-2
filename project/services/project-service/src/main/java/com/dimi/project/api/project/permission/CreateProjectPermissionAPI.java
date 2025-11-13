@@ -2,7 +2,6 @@ package com.dimi.project.api.project.permission;
 
 import com.dimi.core.api.APIResponse;
 import com.dimi.project.permission.CreatePermissionResult;
-import com.dimi.project.permission.PermissionError;
 import com.dimi.project.permission.PermissionService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,15 +28,6 @@ public class CreateProjectPermissionAPI
     public ResponseEntity<APIResponse> createProjectPermission(@Valid @RequestBody NewPermissionRequest request)
     {
         CreatePermissionResult result = permissionService.createPermission(request);
-        if(result.getError() != null)
-        {
-            APIResponse response = new APIResponse();
-            response.setError(result.getError());
-            if(result.getError().getErrorCode().equals(PermissionError.PERMISSION_ALREADY_EXISTS))
-            {
-                return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(response);
-            }
-        }
         return ResponseEntity.created(null).body(new APIResponse());
     }
 

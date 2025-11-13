@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,17 +30,15 @@ public class UserGroupService
         UserGroupModel userGroup = new UserGroupModel(request.getName(), request.getDescription());
         try
         {
+            UserGroupModel saved = save(userGroup);
+            dao.flush();
             return CreateUserGroupResult.builder()
-                            .userGroup(save(userGroup))
+                            .userGroup(saved)
                             .build();
         }
-        catch(DuplicateRecordException e)
+        catch(DataIntegrityViolationException e)
         {
-            AError error = new AError<>();
-            error.setErrorCode(UserGroupError.USER_GROUP_ALREADY_EXISTS);
-            return CreateUserGroupResult.builder()
-                            .error(error)
-                            .build();
+            throw new DuplicateRecordException(UserGroupError.USER_GROUP_ALREADY_EXISTS);
         }
     }
 
@@ -55,17 +54,15 @@ public class UserGroupService
             userGroup.setDescription(request.getDescription());
             try
             {
+                UserGroupModel saved = save(userGroup);
+                dao.flush();
                 return UpdateUserGroupResult.builder()
-                                .userGroup(save(userGroup))
+                                .userGroup(saved)
                                 .build();
             }
-            catch(DuplicateRecordException e)
+            catch(DataIntegrityViolationException e)
             {
-                AError error = new AError<>();
-                error.setErrorCode(UserGroupError.USER_GROUP_ALREADY_EXISTS);
-                return UpdateUserGroupResult.builder()
-                                .error(error)
-                                .build();
+                throw new DuplicateRecordException(UserGroupError.USER_GROUP_ALREADY_EXISTS);
             }
         }
         else
@@ -89,17 +86,15 @@ public class UserGroupService
             UserInUserGroupModel userInUserGroup = new UserInUserGroupModel(request.getUserID(), userGroup);
             try
             {
+                UserInUserGroupModel saved = usersInUserGroupsDAO.save(userInUserGroup);
+                usersInUserGroupsDAO.flush();
                 return AddUserToUserGroupResult.builder()
-                                .userInUserGroup(usersInUserGroupsDAO.save(userInUserGroup))
+                                .userInUserGroup(saved)
                                 .build();
             }
-            catch(DuplicateRecordException e)
+            catch(DataIntegrityViolationException e)
             {
-                AError error = new AError<>();
-                error.setErrorCode(UserGroupError.USER_ALREADY_IN_USER_GROUP);
-                return AddUserToUserGroupResult.builder()
-                                .error(error)
-                                .build();
+                throw new DuplicateRecordException(UserGroupError.USER_ALREADY_IN_USER_GROUP);
             }
         }
         else
@@ -107,6 +102,28 @@ public class UserGroupService
             AError error = new AError<>();
             error.setErrorCode(UserGroupError.USER_GROUP_NOT_FOUND);
             return AddUserToUserGroupResult.builder()
+                            .error(error)
+                            .build();
+        }
+    }
+
+
+    @Transactional
+    public RemoveUserFromUserGroupResult removeUserFromUserGroup(UUID userGroupID, UUID userID)
+    {
+        Optional<UserGroupModel> userGroupWrap = getByID(userGroupID);
+        if(userGroupWrap.isPresent())
+        {
+            UserGroupModel userGroup = userGroupWrap.get();
+            Optional<UserInUserGroupModel> userInUserGroupWrap = getUserInUserGroupByUserGroupIDAndUserID(userGroup, userID);
+            userInUserGroupWrap.ifPresent(userInUserGroupModel -> usersInUserGroupsDAO.delete(userInUserGroupModel));
+            return RemoveUserFromUserGroupResult.builder().build();
+        }
+        else
+        {
+            AError error = new AError<>();
+            error.setErrorCode(UserGroupError.USER_GROUP_NOT_FOUND);
+            return RemoveUserFromUserGroupResult.builder()
                             .error(error)
                             .build();
         }
@@ -126,9 +143,27 @@ public class UserGroupService
     }
 
 
+    public Optional<UserInUserGroupModel> getUserInUserGroupByID(UUID userInUserGroupID)
+    {
+        return usersInUserGroupsDAO.findById(userInUserGroupID);
+    }
+
+
+    public Optional<UserInUserGroupModel> getUserInUserGroupByUserGroupIDAndUserID(UserGroupModel userGroup, UUID userID)
+    {
+        return usersInUserGroupsDAO.findByUserGroupAndUserID(userGroup, userID);
+    }
+
+
     public List<UserGroupModel> getAll()
     {
         return dao.findAll();
+    }
+
+
+    public List<UserInUserGroupModel> getAllUserGroupsUserBelongsTo(UUID userID)
+    {
+        return usersInUserGroupsDAO.findAllByUserID(userID);
     }
 
 

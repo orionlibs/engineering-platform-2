@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,17 +32,15 @@ public class ProjectGroupService
         ProjectGroupModel projectGroup = new ProjectGroupModel(newProjectGroupAttributes.getName(), newProjectGroupAttributes.getDescription());
         try
         {
+            ProjectGroupModel saved = save(projectGroup);
+            dao.flush();
             return CreateProjectGroupResult.builder()
-                            .projectGroup(save(projectGroup))
+                            .projectGroup(saved)
                             .build();
         }
-        catch(DuplicateRecordException e)
+        catch(DataIntegrityViolationException e)
         {
-            AError error = new AError<>();
-            error.setErrorCode(ProjectGroupError.PROJECT_GROUP_ALREADY_EXISTS);
-            return CreateProjectGroupResult.builder()
-                            .error(error)
-                            .build();
+            throw new DuplicateRecordException(ProjectGroupError.PROJECT_GROUP_ALREADY_EXISTS);
         }
     }
 
@@ -57,17 +56,15 @@ public class ProjectGroupService
             projectGroup.setDescription(projectGroupAttributes.getDescription());
             try
             {
+                ProjectGroupModel saved = save(projectGroup);
+                dao.flush();
                 return UpdateProjectGroupResult.builder()
-                                .projectGroup(save(projectGroup))
+                                .projectGroup(saved)
                                 .build();
             }
-            catch(DuplicateRecordException e)
+            catch(DataIntegrityViolationException e)
             {
-                AError error = new AError<>();
-                error.setErrorCode(ProjectGroupError.PROJECT_GROUP_ALREADY_EXISTS);
-                return UpdateProjectGroupResult.builder()
-                                .error(error)
-                                .build();
+                throw new DuplicateRecordException(ProjectGroupError.PROJECT_GROUP_ALREADY_EXISTS);
             }
         }
         else
