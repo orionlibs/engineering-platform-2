@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class DisassociateProjectPermissionFromProjectAPI
 {
-    @Autowired PermissionService permissionService;
+    @Autowired private PermissionService permissionService;
 
 
     @DeleteMapping(value = "/projects/{projectID}/permissions/{permissionID}/associatees")

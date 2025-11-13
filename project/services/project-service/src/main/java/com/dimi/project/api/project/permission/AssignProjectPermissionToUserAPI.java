@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class AssignProjectPermissionToUserAPI
 {
-    @Autowired PermissionService permissionService;
+    @Autowired private PermissionService permissionService;
 
 
     @PostMapping(value = "/projects/permissions/{permissionID}/assignees")

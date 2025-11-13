@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GetProjectPermissionsAssociatedWithProjectAPI
 {
-    @Autowired PermissionService permissionService;
+    @Autowired private PermissionService permissionService;
 
 
     @GetMapping(value = "/projects/{projectID}/permissions/associations")

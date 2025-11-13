@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class CreateProjectAPI
 {
-    @Autowired ProjectService projectService;
+    @Autowired private ProjectService projectService;
 
 
     @PostMapping(value = "/projects")

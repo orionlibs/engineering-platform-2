@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GetProjectGroupsAPI
 {
-    @Autowired ProjectGroupService projectGroupService;
+    @Autowired private ProjectGroupService projectGroupService;
 
 
     @GetMapping(value = "/projects/groups")

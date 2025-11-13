@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class RemoveUserFromUserGroupAPI
 {
-    @Autowired UserGroupService userGroupService;
+    @Autowired private UserGroupService userGroupService;
 
 
     @DeleteMapping(value = "/projects/user-groups/{userGroupID}/assignees/{userID}")

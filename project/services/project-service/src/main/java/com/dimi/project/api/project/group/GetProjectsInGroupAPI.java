@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GetProjectsInGroupAPI
 {
-    @Autowired ProjectGroupMemberService projectGroupMemberService;
+    @Autowired private ProjectGroupMemberService projectGroupMemberService;
 
 
     @GetMapping(value = "/projects/groups/{projectGroupID}")

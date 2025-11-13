@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GetUserGroupsUserBelongsToAPI
 {
-    @Autowired UserGroupService userGroupService;
+    @Autowired private UserGroupService userGroupService;
 
 
     @GetMapping(value = "/projects/user-groups/assignees/{userID}")

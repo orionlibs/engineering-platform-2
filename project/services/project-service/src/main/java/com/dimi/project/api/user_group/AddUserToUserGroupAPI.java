@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class AddUserToUserGroupAPI
 {
-    @Autowired UserGroupService userGroupService;
+    @Autowired private UserGroupService userGroupService;
 
 
     @PostMapping(value = "/projects/user-groups/{userGroupID}/assignees")

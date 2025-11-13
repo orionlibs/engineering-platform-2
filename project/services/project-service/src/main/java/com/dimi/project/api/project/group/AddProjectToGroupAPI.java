@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AddProjectToGroupAPI
 {
-    @Autowired ProjectGroupMemberService projectGroupMemberService;
+    @Autowired private ProjectGroupMemberService projectGroupMemberService;
 
 
     @PostMapping(value = "/projects/{projectID}/groups/{projectGroupID}")

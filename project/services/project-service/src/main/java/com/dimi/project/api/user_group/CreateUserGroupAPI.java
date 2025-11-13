@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class CreateUserGroupAPI
 {
-    @Autowired UserGroupService userGroupService;
+    @Autowired private UserGroupService userGroupService;
 
 
     @PostMapping(value = "/projects/user-groups")

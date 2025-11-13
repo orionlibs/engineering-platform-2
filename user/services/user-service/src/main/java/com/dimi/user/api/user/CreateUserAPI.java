@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class CreateUserAPI
 {
-    @Autowired UserService userService;
+    @Autowired private UserService userService;
 
 
     @PostMapping(value = "/users")

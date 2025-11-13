@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class RevokePermissionForUserAPI
 {
-    @Autowired UserPermissionService userPermissionService;
+    @Autowired private UserPermissionService userPermissionService;
 
 
     @DeleteMapping(value = "/users/{userID}/permissions/{permissionID}")

@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class UpdateUserAPI
 {
-    @Autowired UserService userService;
+    @Autowired private UserService userService;
 
 
     @PutMapping(value = "/users/{userID}")

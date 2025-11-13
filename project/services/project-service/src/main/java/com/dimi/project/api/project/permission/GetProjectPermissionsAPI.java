@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GetProjectPermissionsAPI
 {
-    @Autowired PermissionService permissionService;
+    @Autowired private PermissionService permissionService;
 
 
     @GetMapping(value = "/projects/permissions")

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class UpdateProjectAPI
 {
-    @Autowired ProjectService projectService;
+    @Autowired private ProjectService projectService;
 
 
     @PutMapping(value = "/projects/{projectID}")

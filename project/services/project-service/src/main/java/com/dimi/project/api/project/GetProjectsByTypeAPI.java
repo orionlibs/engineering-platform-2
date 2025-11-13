@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GetProjectsByTypeAPI
 {
-    @Autowired ProjectService projectService;
+    @Autowired private ProjectService projectService;
 
 
     @GetMapping(value = "/projects")

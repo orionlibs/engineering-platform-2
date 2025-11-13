@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GetProjectAPI
 {
-    @Autowired ProjectService projectService;
+    @Autowired private ProjectService projectService;
 
 
     @GetMapping(value = "/projects/{projectID}")
