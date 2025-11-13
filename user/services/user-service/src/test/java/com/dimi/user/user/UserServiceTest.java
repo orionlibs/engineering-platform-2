@@ -59,7 +59,7 @@ class UserServiceTest extends TestBase
                         .username("me@me.com")
                         .build());
         // when
-        GrantPermissionToUserResult result = userService.grantPermission(user.getUser().getId(), permissionForAuthority.getPermission().getId());
+        GrantPermissionToUserResult result = userPermissionService.grantPermission(user.getUser().getId(), permissionForAuthority.getPermission().getId());
         // then
         assertThat(result.getUser()).isNotNull();
     }

@@ -1,10 +1,12 @@
-package com.dimi.user.user;
+package com.dimi.user.permission;
 
 import com.dimi.core.exception.AError;
 import com.dimi.user.model.UserModel;
+import com.dimi.user.model.UserPermissionsPerAuthorityDAO;
 import com.dimi.user.model.UserPermissionsPerAuthorityModel;
 import com.dimi.user.model.UsersDAO;
-import com.dimi.user.permission.UserPermissionsPerAuthorityService;
+import com.dimi.user.user.RevokePermissionForUserResult;
+import com.dimi.user.user.UserError;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 class UserPermissionRevoker
 {
-    @Autowired private UserPermissionsPerAuthorityService userPermissionsPerAuthorityService;
-    @Autowired private UsersDAO dao;
+    @Autowired private UsersDAO usersDAO;
+    @Autowired private UserPermissionsPerAuthorityDAO userPermissionsPerAuthorityDAO;
 
 
     @Transactional
     RevokePermissionForUserResult revokePermission(UUID userID, UUID permissionID)
     {
-        Optional<UserModel> wrap = dao.findById(userID);
+        Optional<UserModel> wrap = usersDAO.findById(userID);
         if(wrap.isPresent())
         {
             UserModel user = wrap.get();
@@ -30,13 +32,13 @@ class UserPermissionRevoker
                             .anyMatch(p -> p.getId().equals(permissionID));
             if(userAlreadyHasPermission)
             {
-                Optional<UserPermissionsPerAuthorityModel> permissionWrap = userPermissionsPerAuthorityService.getByID(permissionID);
+                Optional<UserPermissionsPerAuthorityModel> permissionWrap = userPermissionsPerAuthorityDAO.findById(permissionID);
                 if(permissionWrap.isPresent())
                 {
                     UserPermissionsPerAuthorityModel permissionModel = permissionWrap.get();
                     user.getPermissions().remove(permissionModel);
                     return RevokePermissionForUserResult.builder()
-                                    .user(dao.save(user))
+                                    .user(usersDAO.save(user))
                                     .build();
                 }
                 else

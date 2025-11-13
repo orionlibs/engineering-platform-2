@@ -15,8 +15,6 @@ public class UserService
 {
     @Autowired private UserCreator userCreator;
     @Autowired private UserUpdater userUpdater;
-    @Autowired private UserPermissionGranter userPermissionGranter;
-    @Autowired private UserPermissionRevoker userPermissionRevoker;
     @Autowired private UsersDAO dao;
 
 
@@ -31,20 +29,6 @@ public class UserService
     public UpdateUserResult updateUser(UUID userID, UpdateUserRequest request)
     {
         return userUpdater.updateUser(userID, request);
-    }
-
-
-    @Transactional
-    public GrantPermissionToUserResult grantPermission(UUID userID, UUID permissionID)
-    {
-        return userPermissionGranter.grantPermission(userID, permissionID);
-    }
-
-
-    @Transactional
-    public RevokePermissionForUserResult revokePermission(UUID userID, UUID permissionID)
-    {
-        return userPermissionRevoker.revokePermission(userID, permissionID);
     }
 
 

@@ -3,6 +3,8 @@ package com.dimi.user.permission;
 import com.dimi.user.api.permission.CreateUserPermissionAPI.NewUserPermissionRequest;
 import com.dimi.user.model.UserPermissionModel;
 import com.dimi.user.model.UserPermissionsDAO;
+import com.dimi.user.user.GrantPermissionToUserResult;
+import com.dimi.user.user.RevokePermissionForUserResult;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserPermissionService
 {
     @Autowired private UserPermissionCreator userPermissionCreator;
+    @Autowired private UserPermissionGranter userPermissionGranter;
+    @Autowired private UserPermissionRevoker userPermissionRevoker;
     @Autowired private UserPermissionsDAO dao;
 
 
@@ -21,6 +25,20 @@ public class UserPermissionService
     public CreatePermissionResult createPermission(NewUserPermissionRequest request)
     {
         return userPermissionCreator.createPermission(request);
+    }
+
+
+    @Transactional
+    public GrantPermissionToUserResult grantPermission(UUID userID, UUID permissionID)
+    {
+        return userPermissionGranter.grantPermission(userID, permissionID);
+    }
+
+
+    @Transactional
+    public RevokePermissionForUserResult revokePermission(UUID userID, UUID permissionID)
+    {
+        return userPermissionRevoker.revokePermission(userID, permissionID);
     }
 
 

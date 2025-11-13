@@ -1,9 +1,9 @@
 package com.dimi.user.api.permission;
 
 import com.dimi.core.api.APIResponse;
+import com.dimi.user.permission.UserPermissionService;
 import com.dimi.user.user.RevokePermissionForUserResult;
 import com.dimi.user.user.UserError;
-import com.dimi.user.user.UserService;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class RevokePermissionForUserAPI
 {
-    @Autowired UserService userService;
+    @Autowired UserPermissionService userPermissionService;
 
 
     @DeleteMapping(value = "/users/{userID}/permissions/{permissionID}")
     public ResponseEntity<APIResponse> revokePermissionForUser(@PathVariable(name = "userID") UUID userID, @PathVariable(name = "permissionID") UUID permissionID)
     {
-        RevokePermissionForUserResult result = userService.revokePermission(userID, permissionID);
+        RevokePermissionForUserResult result = userPermissionService.revokePermission(userID, permissionID);
         if(result.getError() != null)
         {
             APIResponse response = APIResponse.ofError(result.getError());

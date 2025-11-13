@@ -1,9 +1,9 @@
 package com.dimi.user.api.permission;
 
 import com.dimi.core.api.APIResponse;
+import com.dimi.user.permission.UserPermissionService;
 import com.dimi.user.user.GrantPermissionToUserResult;
 import com.dimi.user.user.UserError;
-import com.dimi.user.user.UserService;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class GrantPermissionToUserAPI
 {
-    @Autowired UserService userService;
+    @Autowired UserPermissionService userPermissionService;
 
 
     @PatchMapping(value = "/users/{userID}/permissions/{permissionID}")
     public ResponseEntity<APIResponse> grantPermissionToUser(@PathVariable(name = "userID") UUID userID, @PathVariable(name = "permissionID") UUID permissionID)
     {
-        GrantPermissionToUserResult result = userService.grantPermission(userID, permissionID);
+        GrantPermissionToUserResult result = userPermissionService.grantPermission(userID, permissionID);
         if(result.getError() != null)
         {
             APIResponse response = APIResponse.ofError(result.getError());
