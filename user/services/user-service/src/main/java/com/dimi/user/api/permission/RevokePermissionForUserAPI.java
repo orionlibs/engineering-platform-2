@@ -26,8 +26,7 @@ public class RevokePermissionForUserAPI
         RevokePermissionForUserResult result = userService.revokePermission(userID, permissionID);
         if(result.getError() != null)
         {
-            APIResponse response = new APIResponse();
-            response.setError(result.getError());
+            APIResponse response = APIResponse.ofError(result.getError());
             if(result.getError().getErrorCode().equals(UserError.USER_NOT_FOUND)
                             || result.getError().getErrorCode().equals(UserError.USER_PERMISSION_NOT_FOUND))
             {

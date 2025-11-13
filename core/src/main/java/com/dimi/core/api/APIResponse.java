@@ -39,6 +39,14 @@ public class APIResponse<DATA> implements Serializable
     }
 
 
+    public static APIResponse ofError(AError error)
+    {
+        APIResponse response = new APIResponse();
+        response.setError(error);
+        return response;
+    }
+
+
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder

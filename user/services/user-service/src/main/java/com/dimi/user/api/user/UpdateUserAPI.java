@@ -34,8 +34,7 @@ public class UpdateUserAPI
         UpdateUserResult result = userService.updateUser(userID, request);
         if(result.getError() != null)
         {
-            APIResponse response = new APIResponse();
-            response.setError(result.getError());
+            APIResponse response = APIResponse.ofError(result.getError());
             if(result.getError().getErrorCode().equals(UserError.USER_NOT_FOUND))
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);

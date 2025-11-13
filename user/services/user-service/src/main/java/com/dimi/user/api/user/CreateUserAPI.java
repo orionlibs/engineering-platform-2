@@ -32,8 +32,7 @@ public class CreateUserAPI
         CreateUserResult result = userService.createUser(request);
         if(result.getError() != null)
         {
-            APIResponse response = new APIResponse();
-            response.setError(result.getError());
+            APIResponse response = APIResponse.ofError(result.getError());
             if(result.getError().getErrorCode().equals(UserError.DEFAULT_USER_AUTHORITY_NOT_FOUND))
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);

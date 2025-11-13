@@ -26,8 +26,7 @@ public class RemoveUserFromUserGroupAPI
         RemoveUserFromUserGroupResult result = userGroupService.removeUserFromUserGroup(userGroupID, userID);
         if(result.getError() != null)
         {
-            APIResponse response = new APIResponse();
-            response.setError(result.getError());
+            APIResponse response = APIResponse.ofError(result.getError());
             if(result.getError().getErrorCode().equals(UserGroupError.USER_GROUP_NOT_FOUND))
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);

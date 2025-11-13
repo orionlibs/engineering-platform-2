@@ -34,8 +34,7 @@ public class AssignAuthorityToUserAPI
         AssignAuthorityToUserResult result = userService.assignAuthority(request);
         if(result.getError() != null)
         {
-            APIResponse response = new APIResponse();
-            response.setError(result.getError());
+            APIResponse response = APIResponse.ofError(result.getError());
             if(result.getError().getErrorCode().equals(UserError.USER_NOT_FOUND)
                             || result.getError().getErrorCode().equals(UserError.USER_AUTHORITY_NOT_FOUND))
             {

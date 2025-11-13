@@ -35,8 +35,7 @@ public class UpdateProjectAvatarAPI
         UpdateProjectAvatarResult result = projectService.updateAvatar(projectID, request.getAvatarURL());
         if(result.getError() != null)
         {
-            APIResponse response = new APIResponse();
-            response.setError(result.getError());
+            APIResponse response = APIResponse.ofError(result.getError());
             if(result.getError().getErrorCode().equals(ProjectError.PROJECT_NOT_FOUND))
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);

@@ -24,8 +24,7 @@ public class AddProjectToGroupAPI
         AddProjectToGroupResult result = projectGroupMemberService.addProjectToGroup(projectID, projectGroupID);
         if(result.getError() != null)
         {
-            APIResponse response = new APIResponse();
-            response.setError(result.getError());
+            APIResponse response = APIResponse.ofError(result.getError());
             if(result.getError().getErrorCode().equals(ProjectGroupMemberError.PROJECT_OR_PROJECT_GROUP_NOT_FOUND))
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);

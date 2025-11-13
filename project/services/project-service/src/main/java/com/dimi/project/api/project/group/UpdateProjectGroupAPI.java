@@ -34,8 +34,7 @@ public class UpdateProjectGroupAPI
         UpdateProjectGroupResult result = projectGroupService.updateProjectGroup(projectGroupID, request);
         if(result.getError() != null)
         {
-            APIResponse response = new APIResponse();
-            response.setError(result.getError());
+            APIResponse response = APIResponse.ofError(result.getError());
             if(result.getError().getErrorCode().equals(ProjectGroupError.PROJECT_GROUP_NOT_FOUND))
             {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(response);
