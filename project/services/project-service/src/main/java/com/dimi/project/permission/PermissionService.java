@@ -1,7 +1,5 @@
 package com.dimi.project.permission;
 
-import com.dimi.core.data.DuplicateRecordException;
-import com.dimi.core.exception.AError;
 import com.dimi.project.api.project.permission.AssignProjectPermissionToUserAPI.AssignPermissionToUserRequest;
 import com.dimi.project.api.project.permission.CreateProjectPermissionAPI.NewPermissionRequest;
 import com.dimi.project.model.project.ProjectModel;
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,145 +25,45 @@ public class PermissionService
     @Autowired private PermissionsAssociatedWithProjectsDAO permissionsAssociatedWithProjectsDAO;
     @Autowired private PermissionsDAO dao;
     @Autowired private ProjectService projectService;
+    @Autowired private PermissionCreator permissionCreator;
+    @Autowired private UserPermissionAssigner permissionToUserAssigner;
+    @Autowired private UserPermissionUnassigner userPermissionUnassigner;
+    @Autowired private ProjectPermissionAssociator projectPermissionAssociator;
+    @Autowired private ProjectPermissionDisassociator projectPermissionDisassociator;
 
 
     @Transactional
     public CreatePermissionResult createPermission(NewPermissionRequest request)
     {
-        PermissionModel model = new PermissionModel(request.getName(), request.getDescription());
-        try
-        {
-            PermissionModel saved = save(model);
-            dao.flush();
-            return CreatePermissionResult.builder()
-                            .permission(saved)
-                            .build();
-        }
-        catch(DataIntegrityViolationException e)
-        {
-            throw new DuplicateRecordException(PermissionError.PERMISSION_ALREADY_EXISTS);
-        }
+        return permissionCreator.createPermission(request);
     }
 
 
     @Transactional
     public AssignPermissionToUserResult assignPermissionToUser(UUID permissionID, AssignPermissionToUserRequest request)
     {
-        Optional<PermissionModel> permissionWrap = getByID(permissionID);
-        if(permissionWrap.isPresent())
-        {
-            PermissionModel permission = permissionWrap.get();
-            try
-            {
-                PermissionAssignedToUserModel model = new PermissionAssignedToUserModel(permission, request.getUserID());
-                PermissionAssignedToUserModel saved = permissionsAssignedToUsersDAO.save(model);
-                permissionsAssignedToUsersDAO.flush();
-                return AssignPermissionToUserResult.builder()
-                                .permission(saved)
-                                .build();
-            }
-            catch(DataIntegrityViolationException e)
-            {
-                throw new DuplicateRecordException(PermissionError.PERMISSION_ALREADY_EXISTS);
-            }
-        }
-        else
-        {
-            AError error = new AError<>();
-            error.setErrorCode(PermissionError.PERMISSION_NOT_FOUND);
-            return AssignPermissionToUserResult.builder()
-                            .error(error)
-                            .build();
-        }
+        return permissionToUserAssigner.assignPermissionToUser(permissionID, request);
     }
 
 
     @Transactional
     public UnassignPermissionFromUserResult unassignPermissionFromUser(UUID permissionID, UUID userID)
     {
-        Optional<PermissionModel> permissionWrap = getByID(permissionID);
-        if(permissionWrap.isPresent())
-        {
-            PermissionModel permission = permissionWrap.get();
-            Optional<PermissionAssignedToUserModel> permissionAssignedToUserWrap = permissionsAssignedToUsersDAO.findByPermissionAndUserID(permission, userID);
-            if(permissionAssignedToUserWrap.isPresent())
-            {
-                permissionsAssignedToUsersDAO.delete(permissionAssignedToUserWrap.get());
-                return UnassignPermissionFromUserResult.builder().build();
-            }
-        }
-        return UnassignPermissionFromUserResult.builder().build();
+        return userPermissionUnassigner.unassignPermissionFromUser(permissionID, userID);
     }
 
 
     @Transactional
     public AssociatePermissionWithProjectResult associatePermissionWithProject(UUID projectID, UUID permissionID)
     {
-        Optional<PermissionModel> permissionWrap = getByID(permissionID);
-        if(permissionWrap.isPresent())
-        {
-            PermissionModel permission = permissionWrap.get();
-            Optional<ProjectModel> projectWrap = projectService.getByID(projectID);
-            if(projectWrap.isPresent())
-            {
-                ProjectModel project = projectWrap.get();
-                Optional<PermissionAssociatedWithProjectModel> permissionAssociatedWithProjectWrap = permissionsAssociatedWithProjectsDAO.findByPermissionAndProject(permission, project);
-                if(permissionAssociatedWithProjectWrap.isPresent())
-                {
-                    AError error = new AError<>();
-                    error.setErrorCode(PermissionError.PERMISSION_ALREADY_EXISTS);
-                    return AssociatePermissionWithProjectResult.builder()
-                                    .error(error)
-                                    .build();
-                }
-                else
-                {
-                    PermissionAssociatedWithProjectModel model = new PermissionAssociatedWithProjectModel(permission, project);
-                    return AssociatePermissionWithProjectResult.builder()
-                                    .permission(permissionsAssociatedWithProjectsDAO.save(model))
-                                    .build();
-                }
-            }
-            else
-            {
-                AError error = new AError<>();
-                error.setErrorCode(PermissionError.PROJECT_NOT_FOUND);
-                return AssociatePermissionWithProjectResult.builder()
-                                .error(error)
-                                .build();
-            }
-        }
-        else
-        {
-            AError error = new AError<>();
-            error.setErrorCode(PermissionError.PERMISSION_NOT_FOUND);
-            return AssociatePermissionWithProjectResult.builder()
-                            .error(error)
-                            .build();
-        }
+        return projectPermissionAssociator.associatePermissionWithProject(projectID, permissionID);
     }
 
 
     @Transactional
     public DisassociatePermissionFromProjectResult disassociatePermissionFromProject(UUID projectID, UUID permissionID)
     {
-        Optional<PermissionModel> permissionWrap = getByID(permissionID);
-        if(permissionWrap.isPresent())
-        {
-            PermissionModel permission = permissionWrap.get();
-            Optional<ProjectModel> projectWrap = projectService.getByID(projectID);
-            if(projectWrap.isPresent())
-            {
-                ProjectModel project = projectWrap.get();
-                Optional<PermissionAssociatedWithProjectModel> permissionAssociatedWithProjectWrap = permissionsAssociatedWithProjectsDAO.findByPermissionAndProject(permission, project);
-                if(permissionAssociatedWithProjectWrap.isPresent())
-                {
-                    permissionsAssociatedWithProjectsDAO.delete(permissionAssociatedWithProjectWrap.get());
-                    return DisassociatePermissionFromProjectResult.builder().build();
-                }
-            }
-        }
-        return DisassociatePermissionFromProjectResult.builder().build();
+        return projectPermissionDisassociator.disassociatePermissionFromProject(projectID, permissionID);
     }
 
 
