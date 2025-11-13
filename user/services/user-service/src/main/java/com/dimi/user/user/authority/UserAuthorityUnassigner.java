@@ -1,25 +1,26 @@
-package com.dimi.user.user;
+package com.dimi.user.user.authority;
 
 import com.dimi.core.exception.AError;
-import com.dimi.user.api.authority.AssignAuthorityToUserAPI.AssignAuthorityToUserRequest;
+import com.dimi.user.api.authority.UnassignAuthorityToUserAPI.UnassignAuthorityToUserRequest;
 import com.dimi.user.authority.UserAuthorityService;
 import com.dimi.user.model.UserAuthorityModel;
 import com.dimi.user.model.UserModel;
 import com.dimi.user.model.UsersDAO;
+import com.dimi.user.user.UserError;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-class UserAuthorityAssigner
+class UserAuthorityUnassigner
 {
     @Autowired private UserAuthorityService userAuthorityService;
     @Autowired private UsersDAO dao;
 
 
     @Transactional
-    AssignAuthorityToUserResult assignAuthority(AssignAuthorityToUserRequest request)
+    UnassignAuthorityToUserResult unassignAuthority(UnassignAuthorityToUserRequest request)
     {
         Optional<UserModel> wrap = dao.findById(request.getUserID());
         if(wrap.isPresent())
@@ -34,17 +35,17 @@ class UserAuthorityAssigner
                                 .anyMatch(a -> a.getId().equals(authority.getId()));
                 if(authorityFound)
                 {
-                    AError error = new AError<>();
-                    error.setErrorCode(UserError.USER_ALREADY_HAS_AUTHORITY);
-                    return AssignAuthorityToUserResult.builder()
-                                    .error(error)
+                    user.getAuthorities().remove(authority);
+                    return UnassignAuthorityToUserResult.builder()
+                                    .user(dao.save(user))
                                     .build();
                 }
                 else
                 {
-                    user.getAuthorities().add(authority);
-                    return AssignAuthorityToUserResult.builder()
-                                    .user(dao.save(user))
+                    AError error = new AError<>();
+                    error.setErrorCode(UserError.USER_AUTHORITY_NOT_FOUND);
+                    return UnassignAuthorityToUserResult.builder()
+                                    .error(error)
                                     .build();
                 }
             }
@@ -52,7 +53,7 @@ class UserAuthorityAssigner
             {
                 AError error = new AError<>();
                 error.setErrorCode(UserError.USER_AUTHORITY_NOT_FOUND);
-                return AssignAuthorityToUserResult.builder()
+                return UnassignAuthorityToUserResult.builder()
                                 .error(error)
                                 .build();
             }
@@ -61,7 +62,7 @@ class UserAuthorityAssigner
         {
             AError error = new AError<>();
             error.setErrorCode(UserError.USER_NOT_FOUND);
-            return AssignAuthorityToUserResult.builder()
+            return UnassignAuthorityToUserResult.builder()
                             .error(error)
                             .build();
         }

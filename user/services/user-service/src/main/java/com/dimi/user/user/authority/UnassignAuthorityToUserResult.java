@@ -1,4 +1,4 @@
-package com.dimi.user.user;
+package com.dimi.user.user.authority;
 
 import com.dimi.core.ServiceOperationResult;
 import com.dimi.user.model.UserModel;
@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Getter
-public class AssignAuthorityToUserResult extends ServiceOperationResult
+public class UnassignAuthorityToUserResult extends ServiceOperationResult
 {
     private UserModel user;
 }

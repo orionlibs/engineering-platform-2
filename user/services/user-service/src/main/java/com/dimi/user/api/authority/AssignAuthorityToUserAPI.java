@@ -1,7 +1,7 @@
 package com.dimi.user.api.authority;
 
 import com.dimi.core.api.APIResponse;
-import com.dimi.user.user.AssignAuthorityToUserResult;
+import com.dimi.user.user.authority.AssignAuthorityToUserResult;
 import com.dimi.user.user.UserError;
 import com.dimi.user.user.UserService;
 import jakarta.validation.Valid;
