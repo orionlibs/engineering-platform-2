@@ -4,7 +4,7 @@ import com.dimi.core.exception.UncheckedException;
 
 public class IdempotencyConflictException extends UncheckedException
 {
-    private static final String DefaultErrorMessage = "There was an error.";
+    private static final String DEFAULT_ERROR_MESSAGE = "There was an error.";
 
 
     public IdempotencyConflictException(String errorMessage)
@@ -27,6 +27,6 @@ public class IdempotencyConflictException extends UncheckedException
 
     public IdempotencyConflictException(Throwable cause)
     {
-        super(DefaultErrorMessage, cause);
+        super(DEFAULT_ERROR_MESSAGE, cause);
     }
 }

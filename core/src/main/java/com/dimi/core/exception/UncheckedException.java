@@ -2,7 +2,7 @@ package com.dimi.core.exception;
 
 public class UncheckedException extends RuntimeException
 {
-    private static final String DefaultErrorMessage = "There was an error.";
+    private static final String DEFAULT_ERROR_MESSAGE = "There was an error.";
 
 
     public UncheckedException(String errorMessage)
@@ -25,6 +25,6 @@ public class UncheckedException extends RuntimeException
 
     public UncheckedException(Throwable cause)
     {
-        super(DefaultErrorMessage, cause);
+        super(DEFAULT_ERROR_MESSAGE, cause);
     }
 }

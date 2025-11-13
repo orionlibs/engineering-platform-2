@@ -22,15 +22,8 @@ public final class JSONService
     }
 
 
-    public static Object convertJSONToObject(String jsonData, Class<?> classToConvertTo)
+    public static Object convertJSONToObject(String jsonData, Class<?> classToConvertTo) throws JacksonException
     {
-        try
-        {
-            return JSONMapper.getMapper().readValue(jsonData, classToConvertTo);
-        }
-        catch(JacksonException e)
-        {
-            return "";
-        }
+        return JSONMapper.getMapper().readValue(jsonData, classToConvertTo);
     }
 }

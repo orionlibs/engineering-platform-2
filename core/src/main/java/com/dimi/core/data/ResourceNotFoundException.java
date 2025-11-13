@@ -4,7 +4,7 @@ import com.dimi.core.exception.UncheckedException;
 
 public class ResourceNotFoundException extends UncheckedException
 {
-    private static final String DefaultErrorMessage = "There was an error.";
+    private static final String DEFAULT_ERROR_MESSAGE = "There was an error.";
 
 
     public ResourceNotFoundException(String errorMessage)
@@ -27,6 +27,6 @@ public class ResourceNotFoundException extends UncheckedException
 
     public ResourceNotFoundException(Throwable cause)
     {
-        super(DefaultErrorMessage, cause);
+        super(DEFAULT_ERROR_MESSAGE, cause);
     }
 }
