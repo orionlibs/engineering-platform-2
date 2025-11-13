@@ -1,9 +1,9 @@
 package com.dimi.user.api.authority;
 
 import com.dimi.core.api.APIResponse;
-import com.dimi.user.user.authority.AssignAuthorityToUserResult;
+import com.dimi.user.authority.AssignAuthorityToUserResult;
+import com.dimi.user.authority.UserAuthorityService;
 import com.dimi.user.user.UserError;
-import com.dimi.user.user.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,13 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class AssignAuthorityToUserAPI
 {
-    @Autowired UserService userService;
+    @Autowired UserAuthorityService userAuthorityService;
 
 
     @PatchMapping(value = "/users/authority-assignments")
     public ResponseEntity<APIResponse> assignAuthorityTUser(@Valid @RequestBody AssignAuthorityToUserRequest request)
     {
-        AssignAuthorityToUserResult result = userService.assignAuthority(request);
+        AssignAuthorityToUserResult result = userAuthorityService.assignAuthority(request);
         if(result.getError() != null)
         {
             APIResponse response = APIResponse.ofError(result.getError());

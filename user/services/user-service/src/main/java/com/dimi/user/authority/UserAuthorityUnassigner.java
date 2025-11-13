@@ -1,8 +1,8 @@
-package com.dimi.user.user.authority;
+package com.dimi.user.authority;
 
 import com.dimi.core.exception.AError;
 import com.dimi.user.api.authority.UnassignAuthorityToUserAPI.UnassignAuthorityToUserRequest;
-import com.dimi.user.authority.UserAuthorityService;
+import com.dimi.user.model.UserAuthoritiesDAO;
 import com.dimi.user.model.UserAuthorityModel;
 import com.dimi.user.model.UserModel;
 import com.dimi.user.model.UsersDAO;
@@ -15,18 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 class UserAuthorityUnassigner
 {
-    @Autowired private UserAuthorityService userAuthorityService;
-    @Autowired private UsersDAO dao;
+    @Autowired private UsersDAO usersDAO;
+    @Autowired private UserAuthoritiesDAO userAuthoritiesDAO;
 
 
     @Transactional
     UnassignAuthorityToUserResult unassignAuthority(UnassignAuthorityToUserRequest request)
     {
-        Optional<UserModel> wrap = dao.findById(request.getUserID());
+        Optional<UserModel> wrap = usersDAO.findById(request.getUserID());
         if(wrap.isPresent())
         {
             UserModel user = wrap.get();
-            Optional<UserAuthorityModel> authorityWrap = userAuthorityService.getByAuthority(request.getAuthority());
+            Optional<UserAuthorityModel> authorityWrap = userAuthoritiesDAO.findByAuthority(request.getAuthority());
             if(authorityWrap.isPresent())
             {
                 UserAuthorityModel authority = authorityWrap.get();
@@ -37,7 +37,7 @@ class UserAuthorityUnassigner
                 {
                     user.getAuthorities().remove(authority);
                     return UnassignAuthorityToUserResult.builder()
-                                    .user(dao.save(user))
+                                    .user(usersDAO.save(user))
                                     .build();
                 }
                 else

@@ -1,6 +1,8 @@
 package com.dimi.user.authority;
 
+import com.dimi.user.api.authority.AssignAuthorityToUserAPI.AssignAuthorityToUserRequest;
 import com.dimi.user.api.authority.CreateUserAuthorityAPI.NewUserAuthorityRequest;
+import com.dimi.user.api.authority.UnassignAuthorityToUserAPI.UnassignAuthorityToUserRequest;
 import com.dimi.user.model.UserAuthoritiesDAO;
 import com.dimi.user.model.UserAuthorityModel;
 import java.util.List;
@@ -14,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserAuthorityService
 {
     @Autowired private AuthorityCreator authorityCreator;
+    @Autowired private UserAuthorityAssigner userAuthorityAssigner;
+    @Autowired private UserAuthorityUnassigner userAuthorityUnassigner;
     @Autowired private UserAuthoritiesDAO dao;
 
 
@@ -21,6 +25,20 @@ public class UserAuthorityService
     public CreateAuthorityResult createAuthority(NewUserAuthorityRequest request)
     {
         return authorityCreator.createAuthority(request);
+    }
+
+
+    @Transactional
+    public AssignAuthorityToUserResult assignAuthority(AssignAuthorityToUserRequest request)
+    {
+        return userAuthorityAssigner.assignAuthority(request);
+    }
+
+
+    @Transactional
+    public UnassignAuthorityToUserResult unassignAuthority(UnassignAuthorityToUserRequest request)
+    {
+        return userAuthorityUnassigner.unassignAuthority(request);
     }
 
 

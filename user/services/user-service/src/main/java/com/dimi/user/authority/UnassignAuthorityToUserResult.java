@@ -1,4 +1,4 @@
-package com.dimi.user.user.authority;
+package com.dimi.user.authority;
 
 import com.dimi.core.ServiceOperationResult;
 import com.dimi.user.model.UserModel;
