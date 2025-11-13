@@ -1,6 +1,5 @@
 package com.dimi.user.authority;
 
-import com.dimi.core.data.DuplicateRecordException;
 import com.dimi.user.api.authority.CreateUserAuthorityAPI.NewUserAuthorityRequest;
 import com.dimi.user.model.UserAuthoritiesDAO;
 import com.dimi.user.model.UserAuthorityModel;
@@ -8,32 +7,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserAuthorityService
 {
+    @Autowired private AuthorityCreator authorityCreator;
     @Autowired private UserAuthoritiesDAO dao;
 
 
     @Transactional
     public CreateAuthorityResult createAuthority(NewUserAuthorityRequest request)
     {
-        UserAuthorityModel model = new UserAuthorityModel(request.getAuthority());
-        try
-        {
-            UserAuthorityModel saved = save(model);
-            dao.flush();
-            return CreateAuthorityResult.builder()
-                            .authority(saved)
-                            .build();
-        }
-        catch(DataIntegrityViolationException e)
-        {
-            throw new DuplicateRecordException(request.getAuthority() + " already exists");
-        }
+        return authorityCreator.createAuthority(request);
     }
 
 
