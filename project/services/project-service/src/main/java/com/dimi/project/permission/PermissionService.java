@@ -9,7 +9,10 @@ import com.dimi.project.model.project.permission.PermissionModel;
 import com.dimi.project.model.project.permission.PermissionsAssignedToUsersDAO;
 import com.dimi.project.model.project.permission.PermissionsAssociatedWithProjectsDAO;
 import com.dimi.project.model.project.permission.PermissionsDAO;
+import com.dimi.project.model.user_group.UserInUserGroupModel;
 import com.dimi.project.project.ProjectService;
+import com.dimi.project.user_group.UserGroupService;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -23,11 +26,14 @@ public class PermissionService
 {
     @Autowired private PermissionsAssignedToUsersDAO permissionsAssignedToUsersDAO;
     @Autowired private PermissionsAssociatedWithProjectsDAO permissionsAssociatedWithProjectsDAO;
-    @Autowired private PermissionsDAO dao;
+    @Autowired private PermissionsDAO permissionsDAO;
+    @Autowired private UserGroupService userGroupService;
     @Autowired private ProjectService projectService;
     @Autowired private PermissionCreator permissionCreator;
     @Autowired private UserPermissionAssigner permissionToUserAssigner;
+    @Autowired private UserGroupPermissionAssigner permissionToUserGroupAssigner;
     @Autowired private UserPermissionUnassigner userPermissionUnassigner;
+    @Autowired private UserGroupPermissionUnassigner userGroupPermissionUnassigner;
     @Autowired private ProjectPermissionAssociator projectPermissionAssociator;
     @Autowired private ProjectPermissionDisassociator projectPermissionDisassociator;
 
@@ -47,9 +53,23 @@ public class PermissionService
 
 
     @Transactional
+    public AssignPermissionToUserGroupResult assignPermissionToUserGroup(UUID permissionID, UUID userGroupID)
+    {
+        return permissionToUserGroupAssigner.assignPermissionToUserGroup(permissionID, userGroupID);
+    }
+
+
+    @Transactional
     public UnassignPermissionFromUserResult unassignPermissionFromUser(UUID permissionID, UUID userID)
     {
         return userPermissionUnassigner.unassignPermissionFromUser(permissionID, userID);
+    }
+
+
+    @Transactional
+    public UnassignPermissionToUserGroupResult unassignPermissionFromUserGroup(UUID permissionID, UUID userGroupID)
+    {
+        return userGroupPermissionUnassigner.unassignPermissionFromUserGroup(permissionID, userGroupID);
     }
 
 
@@ -73,6 +93,20 @@ public class PermissionService
     }
 
 
+    public List<PermissionModel> getAllPermissionsAssignedToUserGroup(UUID userGroupID)
+    {
+        List<UserInUserGroupModel> users = userGroupService.getAllUsersInUserGroup(userGroupID);
+        List<UUID> userIDs = new ArrayList<>();
+        users.forEach(user -> userIDs.add(user.getUserID()));
+        List<PermissionAssignedToUserModel> models = permissionsAssignedToUsersDAO.findAllByUserIDIn(userIDs);
+        return models.stream()
+                        .map(m -> getByID(m.getPermission().getId()))
+                        .filter(p -> p.isPresent())
+                        .map(p -> p.get())
+                        .toList();
+    }
+
+
     public List<PermissionAssociatedWithProjectModel> getAllPermissionsAssociatedWithProject(UUID projectID)
     {
         Optional<ProjectModel> projectWrap = projectService.getByID(projectID);
@@ -88,24 +122,24 @@ public class PermissionService
     @Transactional
     public PermissionModel save(PermissionModel model)
     {
-        return dao.save(model);
+        return permissionsDAO.save(model);
     }
 
 
     public Optional<PermissionModel> getByID(UUID permissionID)
     {
-        return dao.findById(permissionID);
+        return permissionsDAO.findById(permissionID);
     }
 
 
     public List<PermissionModel> getAll()
     {
-        return dao.findAll();
+        return permissionsDAO.findAll();
     }
 
 
     public void deleteAll()
     {
-        dao.deleteAll();
+        permissionsDAO.deleteAll();
     }
 }

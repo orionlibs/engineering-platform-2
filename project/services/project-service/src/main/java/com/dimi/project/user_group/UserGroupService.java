@@ -90,6 +90,12 @@ public class UserGroupService
     }
 
 
+    public List<UserInUserGroupModel> getAllUsersInUserGroup(UUID userGroupID)
+    {
+        return usersInUserGroupsDAO.findAllByUserGroup_Id(userGroupID);
+    }
+
+
     public void delete(UUID userGroupID)
     {
         dao.deleteById(userGroupID);

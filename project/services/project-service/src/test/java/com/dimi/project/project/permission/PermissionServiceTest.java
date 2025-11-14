@@ -5,11 +5,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.dimi.project.TestBase;
 import com.dimi.project.api.project.permission.AssignProjectPermissionToUserAPI.AssignPermissionToUserRequest;
 import com.dimi.project.api.project.permission.CreateProjectPermissionAPI.NewPermissionRequest;
+import com.dimi.project.api.user_group.AddUserToUserGroupAPI.AddUserToUserGroupRequest;
+import com.dimi.project.api.user_group.CreateUserGroupAPI.NewUserGroupRequest;
 import com.dimi.project.model.project.permission.PermissionAssignedToUserModel;
+import com.dimi.project.model.project.permission.PermissionModel;
 import com.dimi.project.model.project.permission.PermissionsAssignedToUsersDAO;
+import com.dimi.project.permission.AssignPermissionToUserGroupResult;
 import com.dimi.project.permission.AssignPermissionToUserResult;
 import com.dimi.project.permission.CreatePermissionResult;
 import com.dimi.project.permission.PermissionService;
+import com.dimi.project.permission.UnassignPermissionToUserGroupResult;
+import com.dimi.project.user_group.AddUserToUserGroupResult;
+import com.dimi.project.user_group.CreateUserGroupResult;
+import com.dimi.project.user_group.UserGroupService;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,12 +33,14 @@ class PermissionServiceTest extends TestBase
 {
     @Autowired PermissionsAssignedToUsersDAO permissionsAssignedToUsersDAO;
     @Autowired PermissionService permissionService;
+    @Autowired UserGroupService userGroupService;
 
 
     @BeforeEach
     void setup()
     {
         permissionService.deleteAll();
+        userGroupService.deleteAll();
         permissionsAssignedToUsersDAO.deleteAll();
     }
 
@@ -77,6 +87,31 @@ class PermissionServiceTest extends TestBase
 
 
     @Test
+    void assignPermissionToUserGroup()
+    {
+        CreatePermissionResult permission1 = permissionService.createPermission(NewPermissionRequest.builder()
+                        .name("permission1")
+                        .description("description1")
+                        .build());
+        CreateUserGroupResult userGroup = userGroupService.createGroup(NewUserGroupRequest.builder()
+                        .name("group1")
+                        .description("description1")
+                        .build());
+        UUID userID1 = UUID.randomUUID();
+        UUID userID2 = UUID.randomUUID();
+        AddUserToUserGroupResult groupAssignment1 = userGroupService.addUserToUserGroup(userGroup.getUserGroup().getId(), AddUserToUserGroupRequest.builder()
+                        .userID(userID1)
+                        .build());
+        AddUserToUserGroupResult groupAssignment2 = userGroupService.addUserToUserGroup(userGroup.getUserGroup().getId(), AddUserToUserGroupRequest.builder()
+                        .userID(userID2)
+                        .build());
+        AssignPermissionToUserGroupResult assignment1 = permissionService.assignPermissionToUserGroup(permission1.getPermission().getId(), userGroup.getUserGroup().getId());
+        List<PermissionModel> result1 = permissionService.getAllPermissionsAssignedToUserGroup(userGroup.getUserGroup().getId());
+        assertThat(result1.size()).isEqualTo(2);
+    }
+
+
+    @Test
     void unassignPermissionFromUser()
     {
         CreatePermissionResult permission1 = permissionService.createPermission(NewPermissionRequest.builder()
@@ -99,6 +134,34 @@ class PermissionServiceTest extends TestBase
         assertThat(result1.isEmpty()).isTrue();
         Optional<PermissionAssignedToUserModel> result2 = permissionsAssignedToUsersDAO.findByPermissionAndUserID(permission2.getPermission(), userID);
         assertThat(result2.get().getPermission().getName()).isEqualTo(permission2.getPermission().getName());
+    }
+
+
+    @Test
+    void unassignPermissionFromUserGroup()
+    {
+        CreatePermissionResult permission1 = permissionService.createPermission(NewPermissionRequest.builder()
+                        .name("permission1")
+                        .description("description1")
+                        .build());
+        CreateUserGroupResult userGroup = userGroupService.createGroup(NewUserGroupRequest.builder()
+                        .name("group1")
+                        .description("description1")
+                        .build());
+        UUID userID1 = UUID.randomUUID();
+        UUID userID2 = UUID.randomUUID();
+        AddUserToUserGroupResult groupAssignment1 = userGroupService.addUserToUserGroup(userGroup.getUserGroup().getId(), AddUserToUserGroupRequest.builder()
+                        .userID(userID1)
+                        .build());
+        AddUserToUserGroupResult groupAssignment2 = userGroupService.addUserToUserGroup(userGroup.getUserGroup().getId(), AddUserToUserGroupRequest.builder()
+                        .userID(userID2)
+                        .build());
+        AssignPermissionToUserGroupResult assignment1 = permissionService.assignPermissionToUserGroup(permission1.getPermission().getId(), userGroup.getUserGroup().getId());
+        List<PermissionModel> result1 = permissionService.getAllPermissionsAssignedToUserGroup(userGroup.getUserGroup().getId());
+        assertThat(result1.size()).isEqualTo(2);
+        UnassignPermissionToUserGroupResult result2 = permissionService.unassignPermissionFromUserGroup(permission1.getPermission().getId(), userGroup.getUserGroup().getId());
+        List<PermissionModel> result3 = permissionService.getAllPermissionsAssignedToUserGroup(userGroup.getUserGroup().getId());
+        assertThat(result3.isEmpty()).isTrue();
     }
 
 

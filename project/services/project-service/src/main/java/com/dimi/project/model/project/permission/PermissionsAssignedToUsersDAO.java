@@ -18,4 +18,10 @@ public interface PermissionsAssignedToUsersDAO extends JpaRepository<PermissionA
 
 
     List<PermissionAssignedToUserModel> findAllByUserID(UUID userID);
+
+
+    List<PermissionAssignedToUserModel> findAllByUserIDIn(List<UUID> UserIds);
+
+
+    List<PermissionAssignedToUserModel> findAllByPermissionAndUserIDIn(PermissionModel permission, List<UUID> ids);
 }

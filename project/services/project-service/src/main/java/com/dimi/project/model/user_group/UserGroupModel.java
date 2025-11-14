@@ -36,7 +36,7 @@ public class UserGroupModel
     @Column(columnDefinition = "TEXT")
     private String description;
     @OneToMany(mappedBy = "userGroup", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<UserInUserGroupModel> userAssignedToUserGroup = new ArrayList<>();
+    private List<UserInUserGroupModel> usersAssignedToUserGroup = new ArrayList<>();
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

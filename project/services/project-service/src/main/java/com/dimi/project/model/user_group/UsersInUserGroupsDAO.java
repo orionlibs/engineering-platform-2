@@ -18,4 +18,7 @@ public interface UsersInUserGroupsDAO extends JpaRepository<UserInUserGroupModel
 
 
     List<UserInUserGroupModel> findAllByUserID(UUID userID);
+
+
+    List<UserInUserGroupModel> findAllByUserGroup_Id(UUID userGroupID);
 }
