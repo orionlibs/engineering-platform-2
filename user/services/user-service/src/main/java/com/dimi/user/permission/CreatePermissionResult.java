@@ -1,7 +1,7 @@
 package com.dimi.user.permission;
 
 import com.dimi.core.ServiceOperationResult;
-import com.dimi.user.model.UserPermissionModel;
+import com.dimi.user.model.permission.UserPermissionModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

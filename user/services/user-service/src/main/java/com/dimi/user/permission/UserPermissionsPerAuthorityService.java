@@ -1,8 +1,8 @@
 package com.dimi.user.permission;
 
 import com.dimi.user.api.permission.CreateUserPermissionForAuthorityAPI.NewUserPermissionForAuthorityRequest;
-import com.dimi.user.model.UserPermissionsPerAuthorityDAO;
-import com.dimi.user.model.UserPermissionsPerAuthorityModel;
+import com.dimi.user.model.permission.UserPermissionsPerAuthorityDAO;
+import com.dimi.user.model.permission.UserPermissionsPerAuthorityModel;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

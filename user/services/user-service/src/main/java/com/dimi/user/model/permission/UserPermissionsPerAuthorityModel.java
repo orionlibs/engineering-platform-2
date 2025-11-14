@@ -1,4 +1,4 @@
-package com.dimi.user.model;
+package com.dimi.user.model.permission;
 
 import com.dimi.user.model.authority.UserAuthorityModel;
 import jakarta.persistence.Column;

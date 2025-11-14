@@ -2,8 +2,8 @@ package com.dimi.user.permission;
 
 import com.dimi.core.data.DuplicateRecordException;
 import com.dimi.user.api.permission.CreateUserPermissionAPI.NewUserPermissionRequest;
-import com.dimi.user.model.UserPermissionModel;
-import com.dimi.user.model.UserPermissionsDAO;
+import com.dimi.user.model.permission.UserPermissionModel;
+import com.dimi.user.model.permission.UserPermissionsDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.dimi.user.model;
+package com.dimi.user.model.permission;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

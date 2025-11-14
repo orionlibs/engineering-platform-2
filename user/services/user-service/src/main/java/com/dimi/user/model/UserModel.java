@@ -1,6 +1,7 @@
 package com.dimi.user.model;
 
 import com.dimi.user.model.authority.UserAuthorityModel;
+import com.dimi.user.model.permission.UserPermissionsPerAuthorityModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
