@@ -17,7 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "project_groups", schema = "omnieng", indexes = {
-                @Index(name = "idx_omnieng_project_groups", columnList = "id")
+                @Index(name = "idx_project_groups", columnList = "id")
 })
 @Getter
 @Setter

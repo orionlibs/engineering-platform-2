@@ -21,7 +21,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "permissions", schema = "omnieng", indexes = {
-                @Index(name = "idx_omnieng_permissions", columnList = "id")
+                @Index(name = "idx_permissions", columnList = "id")
 })
 @Getter
 @Setter

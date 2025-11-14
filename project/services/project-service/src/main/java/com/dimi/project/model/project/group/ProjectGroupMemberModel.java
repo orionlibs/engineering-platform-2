@@ -21,7 +21,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "project_group_members", schema = "omnieng", indexes = {
-                @Index(name = "idx_omnieng_project_group_members", columnList = "id"),
+                @Index(name = "idx_project_group_members", columnList = "id"),
 },
                 uniqueConstraints = {
                                 @UniqueConstraint(

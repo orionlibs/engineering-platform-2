@@ -25,7 +25,7 @@ import org.hibernate.annotations.UpdateTimestamp;
                 name = "user_permissions_per_authority",
                 schema = "omnieng",
                 indexes = {
-                                @Index(name = "idx_omnieng_user_permissions_per_authority", columnList = "id")
+                                @Index(name = "idx_user_permissions_per_authority", columnList = "id")
                 },
                 uniqueConstraints = {
                                 @UniqueConstraint(

@@ -1,6 +1,7 @@
 package com.dimi.project.model.project;
 
 import com.dimi.project.model.project.group.ProjectGroupMemberModel;
+import com.dimi.project.model.project.member.ProjectMemberModel;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +25,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "projects", schema = "omnieng", indexes = {
-                @Index(name = "idx_omnieng_projects", columnList = "id")
+                @Index(name = "idx_projects", columnList = "id")
 })
 @Getter
 @Setter
@@ -48,6 +49,8 @@ public class ProjectModel
     private String avatarURL;
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProjectGroupMemberModel> projectGroupsAsMember = new ArrayList<>();
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectMemberModel> projectMembers = new ArrayList<>();
     @Column(name = "manager_user_id", length = 50)
     private UUID managerUserID;
     @CreationTimestamp

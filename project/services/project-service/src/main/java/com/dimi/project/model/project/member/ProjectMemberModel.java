@@ -1,7 +1,9 @@
-package com.dimi.project.model.user_group;
+package com.dimi.project.model.project.member;
 
+import com.dimi.project.model.project.ProjectModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,26 +20,26 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "users_in_user_groups", schema = "omnieng", indexes = {
-                @Index(name = "idx_users_in_user_groups", columnList = "id")
+@Table(name = "project_members", schema = "omnieng", indexes = {
+                @Index(name = "idx_project_members", columnList = "id")
 }, uniqueConstraints = {
                 @UniqueConstraint(
-                                name = "unique_users_in_user_groups",
-                                columnNames = {"user_group_id", "user_id"}
+                                name = "unique_project_members",
+                                columnNames = {"user_id", "project_id"}
                 )
 })
 @Getter
 @Setter
-public class UserInUserGroupModel
+public class ProjectMemberModel
 {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Column(name = "user_id", length = 50, nullable = false)
+    @Column(name = "user_id", nullable = false)
     private UUID userID;
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_group_id", nullable = false)
-    private UserGroupModel userGroup;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id")
+    private ProjectModel project;
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -46,14 +48,14 @@ public class UserInUserGroupModel
     private LocalDateTime updatedAt;
 
 
-    public UserInUserGroupModel()
+    public ProjectMemberModel()
     {
     }
 
 
-    public UserInUserGroupModel(UUID userID, UserGroupModel userGroup)
+    public ProjectMemberModel(UUID userID, ProjectModel project)
     {
         this.userID = userID;
-        this.userGroup = userGroup;
+        this.project = project;
     }
 }
