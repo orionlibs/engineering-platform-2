@@ -55,6 +55,23 @@ class ProjectGroupMemberServiceTest extends TestBase
 
 
     @Test
+    void removeProjectFromGroup()
+    {
+        ProjectModel proj = saveProject("project1", "PR1", Type.ENGINEERING, "description1", "https://some.com/image.jpg");
+        CreateProjectGroupResult group = projectGroupService.createProjectGroup(NewProjectGroupRequest.builder()
+                        .name("New Project Group")
+                        .description("Description")
+                        .build());
+        AddProjectToGroupResult member = projectGroupMemberService.addProjectToGroup(proj.getId(), group.getProjectGroup().getId());
+        Optional<ProjectGroupMemberModel> wrap = projectGroupMemberService.getByID(member.getProjectGroupMember().getId());
+        assertThat(wrap.isPresent()).isTrue();
+        projectGroupMemberService.removeProjectFromGroup(proj.getId(), group.getProjectGroup().getId());
+        wrap = projectGroupMemberService.getByID(member.getProjectGroupMember().getId());
+        assertThat(wrap.isEmpty()).isTrue();
+    }
+
+
+    @Test
     void getProjectsByGroupID()
     {
         ProjectModel proj1 = saveProject("project1", "PR1", Type.ENGINEERING, "description1", "https://some.com/image.jpg");
