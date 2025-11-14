@@ -2,8 +2,8 @@ package com.dimi.user.user;
 
 import com.dimi.user.api.user.CreateUserAPI.NewUserRequest;
 import com.dimi.user.api.user.UpdateUserAPI.UpdateUserRequest;
-import com.dimi.user.model.UserModel;
-import com.dimi.user.model.UsersDAO;
+import com.dimi.user.model.user.UserModel;
+import com.dimi.user.model.user.UsersDAO;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

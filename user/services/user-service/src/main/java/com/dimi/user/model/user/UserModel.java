@@ -1,4 +1,4 @@
-package com.dimi.user.model;
+package com.dimi.user.model.user;
 
 import com.dimi.user.model.authority.UserAuthorityModel;
 import com.dimi.user.model.permission.UserPermissionsPerAuthorityModel;

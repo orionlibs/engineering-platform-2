@@ -1,7 +1,7 @@
 package com.dimi.user.authority;
 
 import com.dimi.core.ServiceOperationResult;
-import com.dimi.user.model.UserModel;
+import com.dimi.user.model.user.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

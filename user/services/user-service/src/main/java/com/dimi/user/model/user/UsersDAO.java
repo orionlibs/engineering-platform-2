@@ -1,4 +1,4 @@
-package com.dimi.user.model;
+package com.dimi.user.model.user;
 
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
