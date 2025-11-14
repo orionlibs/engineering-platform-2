@@ -1,5 +1,7 @@
-package com.dimi.user.model;
+package com.dimi.user.model.authority;
 
+import com.dimi.user.model.UserModel;
+import com.dimi.user.model.UserPermissionsPerAuthorityModel;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

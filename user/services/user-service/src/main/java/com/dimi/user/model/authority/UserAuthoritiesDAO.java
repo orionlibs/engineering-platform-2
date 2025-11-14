@@ -1,4 +1,4 @@
-package com.dimi.user.model;
+package com.dimi.user.model.authority;
 
 import java.util.Optional;
 import java.util.UUID;

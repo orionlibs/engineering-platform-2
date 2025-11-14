@@ -1,5 +1,6 @@
 package com.dimi.user.model;
 
+import com.dimi.user.model.authority.UserAuthorityModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

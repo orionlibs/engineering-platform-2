@@ -2,8 +2,8 @@ package com.dimi.user.authority;
 
 import com.dimi.core.exception.AError;
 import com.dimi.user.api.authority.AssignAuthorityToUserAPI.AssignAuthorityToUserRequest;
-import com.dimi.user.model.UserAuthoritiesDAO;
-import com.dimi.user.model.UserAuthorityModel;
+import com.dimi.user.model.authority.UserAuthoritiesDAO;
+import com.dimi.user.model.authority.UserAuthorityModel;
 import com.dimi.user.model.UserModel;
 import com.dimi.user.model.UsersDAO;
 import com.dimi.user.user.UserError;
