@@ -2,8 +2,8 @@ package com.dimi.user.permission;
 
 import com.dimi.core.exception.AError;
 import com.dimi.user.model.user.UserModel;
-import com.dimi.user.model.permission.UserPermissionsPerAuthorityDAO;
-import com.dimi.user.model.permission.UserPermissionsPerAuthorityModel;
+import com.dimi.user.model.user.permission.UserPermissionsPerAuthorityDAO;
+import com.dimi.user.model.user.permission.UserPermissionsPerAuthorityModel;
 import com.dimi.user.model.user.UsersDAO;
 import com.dimi.user.user.GrantPermissionToUserResult;
 import com.dimi.user.user.UserError;

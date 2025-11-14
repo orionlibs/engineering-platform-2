@@ -2,8 +2,8 @@ package com.dimi.user.authority;
 
 import com.dimi.core.data.DuplicateRecordException;
 import com.dimi.user.api.authority.CreateUserAuthorityAPI.NewUserAuthorityRequest;
-import com.dimi.user.model.authority.UserAuthoritiesDAO;
-import com.dimi.user.model.authority.UserAuthorityModel;
+import com.dimi.user.model.user.authority.UserAuthoritiesDAO;
+import com.dimi.user.model.user.authority.UserAuthorityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;

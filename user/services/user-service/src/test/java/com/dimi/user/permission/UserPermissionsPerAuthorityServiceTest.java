@@ -9,7 +9,7 @@ import com.dimi.user.api.permission.CreateUserPermissionForAuthorityAPI.NewUserP
 import com.dimi.user.authority.CreateAuthorityResult;
 import com.dimi.user.authority.UserAuthority;
 import com.dimi.user.authority.UserAuthorityService;
-import com.dimi.user.model.permission.UserPermissionsPerAuthorityModel;
+import com.dimi.user.model.user.permission.UserPermissionsPerAuthorityModel;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

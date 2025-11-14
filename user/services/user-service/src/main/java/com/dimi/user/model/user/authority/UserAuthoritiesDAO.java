@@ -1,4 +1,4 @@
-package com.dimi.user.model.permission;
+package com.dimi.user.model.user.authority;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -7,11 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserPermissionsPerAuthorityDAO extends JpaRepository<UserPermissionsPerAuthorityModel, UUID>
+public interface UserAuthoritiesDAO extends JpaRepository<UserAuthorityModel, UUID>
 {
     @Query(value = "SELECT 1", nativeQuery = true)
     Integer testConnection();
 
 
-    Optional<UserPermissionsPerAuthorityModel> findByPermission_IdAndAuthority_Id(UUID permissionId, UUID authorityId);
+    Optional<UserAuthorityModel> findByAuthority(String authority);
 }

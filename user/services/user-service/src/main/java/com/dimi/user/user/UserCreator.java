@@ -5,7 +5,7 @@ import com.dimi.core.exception.AError;
 import com.dimi.user.api.user.CreateUserAPI.NewUserRequest;
 import com.dimi.user.authority.UserAuthority;
 import com.dimi.user.authority.UserAuthorityService;
-import com.dimi.user.model.authority.UserAuthorityModel;
+import com.dimi.user.model.user.authority.UserAuthorityModel;
 import com.dimi.user.model.user.UserModel;
 import com.dimi.user.model.user.UsersDAO;
 import java.util.ArrayList;

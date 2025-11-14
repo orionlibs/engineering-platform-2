@@ -1,8 +1,8 @@
 package com.dimi.user.permission;
 
 import com.dimi.user.api.permission.CreateUserPermissionAPI.NewUserPermissionRequest;
-import com.dimi.user.model.permission.UserPermissionModel;
-import com.dimi.user.model.permission.UserPermissionsDAO;
+import com.dimi.user.model.user.permission.UserPermissionModel;
+import com.dimi.user.model.user.permission.UserPermissionsDAO;
 import com.dimi.user.user.GrantPermissionToUserResult;
 import com.dimi.user.user.RevokePermissionForUserResult;
 import java.util.List;

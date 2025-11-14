@@ -1,6 +1,6 @@
-package com.dimi.user.model.permission;
+package com.dimi.user.model.user.permission;
 
-import com.dimi.user.model.authority.UserAuthorityModel;
+import com.dimi.user.model.user.authority.UserAuthorityModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
