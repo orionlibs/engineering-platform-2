@@ -1,6 +1,5 @@
 package com.dimi.project.model.project.issue;
 
-import com.dimi.project.model.project.ProjectModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,8 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -22,34 +19,26 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "issues", schema = "omnieng", indexes = {
-                @Index(name = "idx_issues", columnList = "id")
+@Table(name = "issue_assignments", schema = "omnieng", indexes = {
+                @Index(name = "idx_issue_assignments", columnList = "id")
 }, uniqueConstraints = {
                 @UniqueConstraint(
-                                name = "unique_issues",
-                                columnNames = {"id", "code"}
+                                name = "unique_issue_assignments",
+                                columnNames = {"user_id", "issue_id"}
                 )
 })
 @Getter
 @Setter
-public class IssueModel
+public class IssueAssignmentModel
 {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Column(length = 10, nullable = false)
-    private String code;
-    @Column(nullable = false)
-    private String title;
-    @Lob
-    @Column(columnDefinition = "TEXT")
-    private String description;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id")
-    private ProjectModel project;
+    @Column(name = "user_id", nullable = false)
+    private UUID userID;
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "issue_assignment_id")
-    private IssueAssignmentModel issueAssignment;
+    @JoinColumn(name = "issue_id")
+    private IssueModel issue;
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -58,15 +47,14 @@ public class IssueModel
     private LocalDateTime updatedAt;
 
 
-    public IssueModel()
+    public IssueAssignmentModel()
     {
     }
 
 
-    public IssueModel(String title, String code, ProjectModel project)
+    public IssueAssignmentModel(UUID userID, IssueModel issue)
     {
-        this.title = title;
-        this.code = code;
-        this.project = project;
+        this.userID = userID;
+        this.issue = issue;
     }
 }
