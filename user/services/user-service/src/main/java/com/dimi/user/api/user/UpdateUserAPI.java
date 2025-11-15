@@ -4,14 +4,9 @@ import com.dimi.core.api.APIResponse;
 import com.dimi.user.user.UpdateUserResult;
 import com.dimi.user.user.UserError;
 import com.dimi.user.user.UserService;
+import com.dimi.user.user.request.UpdateUserRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import java.io.Serializable;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,16 +36,5 @@ public class UpdateUserAPI
             }
         }
         return ResponseEntity.ok(new APIResponse());
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    public static class UpdateUserRequest implements Serializable
-    {
-        @Email(message = "username must be a valid email address")
-        private String username;
     }
 }

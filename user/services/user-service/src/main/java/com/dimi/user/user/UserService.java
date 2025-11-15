@@ -1,9 +1,9 @@
 package com.dimi.user.user;
 
-import com.dimi.user.api.user.CreateUserAPI.NewUserRequest;
-import com.dimi.user.api.user.UpdateUserAPI.UpdateUserRequest;
 import com.dimi.user.model.user.UserModel;
 import com.dimi.user.model.user.UsersDAO;
+import com.dimi.user.user.request.CreateUserRequest;
+import com.dimi.user.user.request.UpdateUserRequest;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class UserService
 
 
     @Transactional
-    public CreateUserResult createUser(NewUserRequest request)
+    public CreateUserResult createUser(CreateUserRequest request)
     {
         return userCreator.createUser(request);
     }

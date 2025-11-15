@@ -2,12 +2,12 @@ package com.dimi.user.permission;
 
 import com.dimi.core.data.DuplicateRecordException;
 import com.dimi.core.exception.AError;
-import com.dimi.user.api.permission.CreateUserPermissionForAuthorityAPI.NewUserPermissionForAuthorityRequest;
 import com.dimi.user.authority.UserAuthorityService;
 import com.dimi.user.model.user.authority.UserAuthorityModel;
 import com.dimi.user.model.user.permission.UserPermissionModel;
 import com.dimi.user.model.user.permission.UserPermissionsPerAuthorityDAO;
 import com.dimi.user.model.user.permission.UserPermissionsPerAuthorityModel;
+import com.dimi.user.permission.request.CreateUserPermissionForAuthorityRequest;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,7 +23,7 @@ class UserPermissionsForAuthorityCreator
 
 
     @Transactional
-    CreatePermissionForAuthorityResult createPermissionForAuthority(NewUserPermissionForAuthorityRequest request)
+    CreatePermissionForAuthorityResult createPermissionForAuthority(CreateUserPermissionForAuthorityRequest request)
     {
         Optional<UserAuthorityModel> authority = userAuthorityService.getByID(request.getAuthorityID());
         Optional<UserPermissionModel> permission = userPermissionService.getByID(request.getPermissionID());

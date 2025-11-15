@@ -1,8 +1,8 @@
 package com.dimi.user.permission;
 
-import com.dimi.user.api.permission.CreateUserPermissionAPI.NewUserPermissionRequest;
 import com.dimi.user.model.user.permission.UserPermissionModel;
 import com.dimi.user.model.user.permission.UserPermissionsDAO;
+import com.dimi.user.permission.request.CreateUserPermissionRequest;
 import com.dimi.user.user.GrantPermissionToUserResult;
 import com.dimi.user.user.RevokePermissionForUserResult;
 import java.util.List;
@@ -22,7 +22,7 @@ public class UserPermissionService
 
 
     @Transactional
-    public CreatePermissionResult createPermission(NewUserPermissionRequest request)
+    public CreatePermissionResult createPermission(CreateUserPermissionRequest request)
     {
         return userPermissionCreator.createPermission(request);
     }

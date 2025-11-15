@@ -2,9 +2,9 @@ package com.dimi.user.user;
 
 import com.dimi.core.data.DuplicateRecordException;
 import com.dimi.core.exception.AError;
-import com.dimi.user.api.user.UpdateUserAPI.UpdateUserRequest;
 import com.dimi.user.model.user.UserModel;
 import com.dimi.user.model.user.UsersDAO;
+import com.dimi.user.user.request.UpdateUserRequest;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

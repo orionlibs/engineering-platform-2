@@ -3,13 +3,8 @@ package com.dimi.user.api.permission;
 import com.dimi.core.api.APIResponse;
 import com.dimi.user.permission.CreatePermissionResult;
 import com.dimi.user.permission.UserPermissionService;
+import com.dimi.user.permission.request.CreateUserPermissionRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import java.io.Serializable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,21 +20,9 @@ public class CreateUserPermissionAPI
 
 
     @PostMapping(value = "/users/permissions")
-    public ResponseEntity<APIResponse> createUserPermission(@Valid @RequestBody NewUserPermissionRequest request)
+    public ResponseEntity<APIResponse> createUserPermission(@Valid @RequestBody CreateUserPermissionRequest request)
     {
         CreatePermissionResult result = userPermissionService.createPermission(request);
         return ResponseEntity.created(null).body(new APIResponse());
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    public static class NewUserPermissionRequest implements Serializable
-    {
-        @NotBlank(message = "name must not be blank")
-        private String name;
-        private String description;
     }
 }

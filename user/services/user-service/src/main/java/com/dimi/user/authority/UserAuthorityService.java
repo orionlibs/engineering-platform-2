@@ -1,8 +1,8 @@
 package com.dimi.user.authority;
 
-import com.dimi.user.api.authority.AssignAuthorityToUserAPI.AssignAuthorityToUserRequest;
-import com.dimi.user.api.authority.CreateUserAuthorityAPI.NewUserAuthorityRequest;
-import com.dimi.user.api.authority.UnassignAuthorityToUserAPI.UnassignAuthorityToUserRequest;
+import com.dimi.user.authority.request.AssignAuthorityToUserRequest;
+import com.dimi.user.authority.request.CreateUserAuthorityRequest;
+import com.dimi.user.authority.request.UnassignAuthorityFromUserRequest;
 import com.dimi.user.model.user.authority.UserAuthoritiesDAO;
 import com.dimi.user.model.user.authority.UserAuthorityModel;
 import java.util.List;
@@ -22,7 +22,7 @@ public class UserAuthorityService
 
 
     @Transactional
-    public CreateAuthorityResult createAuthority(NewUserAuthorityRequest request)
+    public CreateAuthorityResult createAuthority(CreateUserAuthorityRequest request)
     {
         return authorityCreator.createAuthority(request);
     }
@@ -36,7 +36,7 @@ public class UserAuthorityService
 
 
     @Transactional
-    public UnassignAuthorityToUserResult unassignAuthority(UnassignAuthorityToUserRequest request)
+    public UnassignAuthorityToUserResult unassignAuthority(UnassignAuthorityFromUserRequest request)
     {
         return userAuthorityUnassigner.unassignAuthority(request);
     }

@@ -1,8 +1,8 @@
 package com.dimi.user.permission;
 
-import com.dimi.user.api.permission.CreateUserPermissionForAuthorityAPI.NewUserPermissionForAuthorityRequest;
 import com.dimi.user.model.user.permission.UserPermissionsPerAuthorityDAO;
 import com.dimi.user.model.user.permission.UserPermissionsPerAuthorityModel;
+import com.dimi.user.permission.request.CreateUserPermissionForAuthorityRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,7 +18,7 @@ public class UserPermissionsPerAuthorityService
 
 
     @Transactional
-    public CreatePermissionForAuthorityResult createPermissionForAuthority(NewUserPermissionForAuthorityRequest request)
+    public CreatePermissionForAuthorityResult createPermissionForAuthority(CreateUserPermissionForAuthorityRequest request)
     {
         return userPermissionsForAuthorityCreator.createPermissionForAuthority(request);
     }

@@ -2,12 +2,12 @@ package com.dimi.user.user;
 
 import com.dimi.core.data.DuplicateRecordException;
 import com.dimi.core.exception.AError;
-import com.dimi.user.api.user.CreateUserAPI.NewUserRequest;
 import com.dimi.user.authority.UserAuthority;
 import com.dimi.user.authority.UserAuthorityService;
-import com.dimi.user.model.user.authority.UserAuthorityModel;
 import com.dimi.user.model.user.UserModel;
 import com.dimi.user.model.user.UsersDAO;
+import com.dimi.user.model.user.authority.UserAuthorityModel;
+import com.dimi.user.user.request.CreateUserRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +24,7 @@ class UserCreator
 
 
     @Transactional
-    CreateUserResult createUser(NewUserRequest request)
+    CreateUserResult createUser(CreateUserRequest request)
     {
         List<UserAuthorityModel> authorities = new ArrayList<>();
         Optional<UserAuthorityModel> authorityWrap = userAuthorityService.getByAuthority(UserAuthority.USER.name());

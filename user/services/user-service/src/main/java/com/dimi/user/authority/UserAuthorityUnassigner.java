@@ -1,11 +1,11 @@
 package com.dimi.user.authority;
 
 import com.dimi.core.exception.AError;
-import com.dimi.user.api.authority.UnassignAuthorityToUserAPI.UnassignAuthorityToUserRequest;
-import com.dimi.user.model.user.authority.UserAuthoritiesDAO;
-import com.dimi.user.model.user.authority.UserAuthorityModel;
+import com.dimi.user.authority.request.UnassignAuthorityFromUserRequest;
 import com.dimi.user.model.user.UserModel;
 import com.dimi.user.model.user.UsersDAO;
+import com.dimi.user.model.user.authority.UserAuthoritiesDAO;
+import com.dimi.user.model.user.authority.UserAuthorityModel;
 import com.dimi.user.user.UserError;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ class UserAuthorityUnassigner
 
 
     @Transactional
-    UnassignAuthorityToUserResult unassignAuthority(UnassignAuthorityToUserRequest request)
+    UnassignAuthorityToUserResult unassignAuthority(UnassignAuthorityFromUserRequest request)
     {
         Optional<UserModel> wrap = usersDAO.findById(request.getUserID());
         if(wrap.isPresent())

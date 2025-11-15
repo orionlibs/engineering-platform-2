@@ -3,6 +3,7 @@ package com.dimi.user.api.authority;
 import com.dimi.core.api.APIResponse;
 import com.dimi.user.authority.CreateAuthorityResult;
 import com.dimi.user.authority.UserAuthorityService;
+import com.dimi.user.authority.request.CreateUserAuthorityRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -25,20 +26,9 @@ public class CreateUserAuthorityAPI
 
 
     @PostMapping(value = "/users/authorities")
-    public ResponseEntity<APIResponse> createUserAuthority(@Valid @RequestBody NewUserAuthorityRequest request)
+    public ResponseEntity<APIResponse> createUserAuthority(@Valid @RequestBody CreateUserAuthorityRequest request)
     {
         CreateAuthorityResult result = userAuthorityService.createAuthority(request);
         return ResponseEntity.created(null).body(new APIResponse());
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    public static class NewUserAuthorityRequest implements Serializable
-    {
-        @NotBlank(message = "authority must not be blank")
-        private String authority;
     }
 }

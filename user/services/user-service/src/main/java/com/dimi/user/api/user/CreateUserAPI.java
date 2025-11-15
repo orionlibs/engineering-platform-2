@@ -4,13 +4,8 @@ import com.dimi.core.api.APIResponse;
 import com.dimi.user.user.CreateUserResult;
 import com.dimi.user.user.UserError;
 import com.dimi.user.user.UserService;
+import com.dimi.user.user.request.CreateUserRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import java.io.Serializable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +22,7 @@ public class CreateUserAPI
 
 
     @PostMapping(value = "/users")
-    public ResponseEntity<APIResponse> createUser(@Valid @RequestBody NewUserRequest request)
+    public ResponseEntity<APIResponse> createUser(@Valid @RequestBody CreateUserRequest request)
     {
         CreateUserResult result = userService.createUser(request);
         if(result.getError() != null)
@@ -39,16 +34,5 @@ public class CreateUserAPI
             }
         }
         return ResponseEntity.created(null).body(new APIResponse());
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    public static class NewUserRequest implements Serializable
-    {
-        @Email(message = "username must be a valid email address")
-        private String username;
     }
 }

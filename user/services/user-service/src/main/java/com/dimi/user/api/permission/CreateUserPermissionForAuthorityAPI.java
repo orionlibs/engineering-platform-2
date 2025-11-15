@@ -4,6 +4,7 @@ import com.dimi.core.api.APIResponse;
 import com.dimi.user.permission.CreatePermissionForAuthorityResult;
 import com.dimi.user.permission.UserPermissionPerAuthorityError;
 import com.dimi.user.permission.UserPermissionsPerAuthorityService;
+import com.dimi.user.permission.request.CreateUserPermissionForAuthorityRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -28,7 +29,7 @@ public class CreateUserPermissionForAuthorityAPI
 
 
     @PostMapping(value = "/users/permissions-for-authority")
-    public ResponseEntity<APIResponse> createUserPermissionForAuthority(@Valid @RequestBody NewUserPermissionForAuthorityRequest request)
+    public ResponseEntity<APIResponse> createUserPermissionForAuthority(@Valid @RequestBody CreateUserPermissionForAuthorityRequest request)
     {
         CreatePermissionForAuthorityResult result = userPermissionsPerAuthorityService.createPermissionForAuthority(request);
         if(result.getError() != null)
@@ -40,17 +41,5 @@ public class CreateUserPermissionForAuthorityAPI
             }
         }
         return ResponseEntity.created(null).body(new APIResponse());
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    public static class NewUserPermissionForAuthorityRequest implements Serializable
-    {
-        @NotBlank(message = "name must not be blank")
-        private UUID permissionID;
-        private UUID authorityID;
     }
 }
