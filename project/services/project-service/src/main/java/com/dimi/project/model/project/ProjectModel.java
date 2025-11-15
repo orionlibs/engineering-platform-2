@@ -1,6 +1,7 @@
 package com.dimi.project.model.project;
 
 import com.dimi.project.model.project.group.ProjectGroupMemberModel;
+import com.dimi.project.model.project.issue.IssueModel;
 import com.dimi.project.model.project.member.ProjectMemberModel;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -51,6 +52,8 @@ public class ProjectModel
     private List<ProjectGroupMemberModel> projectGroupsAsMember = new ArrayList<>();
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProjectMemberModel> projectMembers = new ArrayList<>();
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<IssueModel> issues = new ArrayList<>();
     @Column(name = "manager_user_id", length = 50)
     private UUID managerUserID;
     @CreationTimestamp
