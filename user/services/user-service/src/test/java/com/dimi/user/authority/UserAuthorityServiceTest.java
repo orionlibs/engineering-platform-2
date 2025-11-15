@@ -3,7 +3,7 @@ package com.dimi.user.authority;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.dimi.user.TestBase;
-import com.dimi.user.api.authority.CreateUserAuthorityAPI.NewUserAuthorityRequest;
+import com.dimi.user.authority.request.CreateUserAuthorityRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ class UserAuthorityServiceTest extends TestBase
     @Test
     void createAuthority()
     {
-        CreateAuthorityResult authority = userAuthorityService.createAuthority(NewUserAuthorityRequest.builder()
+        CreateAuthorityResult authority = userAuthorityService.createAuthority(CreateUserAuthorityRequest.builder()
                         .authority(UserAuthority.USER.name())
                         .build());
         assertThat(authority.getAuthority()).isNotNull();

@@ -3,8 +3,8 @@ package com.dimi.user.permission;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.dimi.user.TestBase;
-import com.dimi.user.api.permission.CreateUserPermissionAPI.NewUserPermissionRequest;
 import com.dimi.user.authority.UserAuthorityService;
+import com.dimi.user.permission.request.CreateUserPermissionRequest;
 import com.dimi.user.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ class UserPermissionServiceTest extends TestBase
     @Test
     void createPermission()
     {
-        CreatePermissionResult permission = userPermissionService.createPermission(NewUserPermissionRequest.builder()
+        CreatePermissionResult permission = userPermissionService.createPermission(CreateUserPermissionRequest.builder()
                         .name("perm1")
                         .description("descr1")
                         .build());
