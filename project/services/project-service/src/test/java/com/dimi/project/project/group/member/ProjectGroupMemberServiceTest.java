@@ -3,12 +3,12 @@ package com.dimi.project.project.group.member;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.dimi.project.TestBase;
-import com.dimi.project.api.project.group.CreateProjectGroupAPI.NewProjectGroupRequest;
 import com.dimi.project.model.project.ProjectModel;
 import com.dimi.project.model.project.ProjectType.Type;
 import com.dimi.project.model.project.group.ProjectGroupMemberModel;
 import com.dimi.project.project.group.CreateProjectGroupResult;
 import com.dimi.project.project.group.ProjectGroupService;
+import com.dimi.project.project.group.request.CreateProjectGroupRequest;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +38,7 @@ class ProjectGroupMemberServiceTest extends TestBase
     void addProjectToGroup()
     {
         ProjectModel proj = saveProject("project1", "PR1", Type.ENGINEERING, "description1", "https://some.com/image.jpg");
-        CreateProjectGroupResult group = projectGroupService.createProjectGroup(NewProjectGroupRequest.builder()
+        CreateProjectGroupResult group = projectGroupService.createProjectGroup(CreateProjectGroupRequest.builder()
                         .name("New Project Group")
                         .description("Description")
                         .build());
@@ -58,7 +58,7 @@ class ProjectGroupMemberServiceTest extends TestBase
     void removeProjectFromGroup()
     {
         ProjectModel proj = saveProject("project1", "PR1", Type.ENGINEERING, "description1", "https://some.com/image.jpg");
-        CreateProjectGroupResult group = projectGroupService.createProjectGroup(NewProjectGroupRequest.builder()
+        CreateProjectGroupResult group = projectGroupService.createProjectGroup(CreateProjectGroupRequest.builder()
                         .name("New Project Group")
                         .description("Description")
                         .build());
@@ -76,7 +76,7 @@ class ProjectGroupMemberServiceTest extends TestBase
     {
         ProjectModel proj1 = saveProject("project1", "PR1", Type.ENGINEERING, "description1", "https://some.com/image.jpg");
         ProjectModel proj2 = saveProject("project2", "PR2", Type.ENGINEERING, "description2", "https://some.com/image.jpg");
-        CreateProjectGroupResult group = projectGroupService.createProjectGroup(NewProjectGroupRequest.builder()
+        CreateProjectGroupResult group = projectGroupService.createProjectGroup(CreateProjectGroupRequest.builder()
                         .name("New Project Group")
                         .description("Description")
                         .build());

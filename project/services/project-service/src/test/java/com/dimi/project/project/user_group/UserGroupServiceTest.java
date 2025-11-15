@@ -5,13 +5,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.dimi.core.data.DuplicateRecordException;
 import com.dimi.project.TestBase;
-import com.dimi.project.api.user_group.AddUserToUserGroupAPI.AddUserToUserGroupRequest;
-import com.dimi.project.api.user_group.CreateUserGroupAPI.NewUserGroupRequest;
 import com.dimi.project.model.user_group.UserInUserGroupModel;
 import com.dimi.project.model.user_group.UsersInUserGroupsDAO;
 import com.dimi.project.user_group.AddUserToUserGroupResult;
 import com.dimi.project.user_group.CreateUserGroupResult;
 import com.dimi.project.user_group.UserGroupService;
+import com.dimi.project.user_group.request.AddUserToUserGroupRequest;
+import com.dimi.project.user_group.request.CreateUserGroupRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,7 +40,7 @@ class UserGroupServiceTest extends TestBase
     @Test
     void createGroup()
     {
-        CreateUserGroupResult userGroup = userGroupService.createGroup(NewUserGroupRequest.builder()
+        CreateUserGroupResult userGroup = userGroupService.createGroup(CreateUserGroupRequest.builder()
                         .name("group1")
                         .description("description1")
                         .build());
@@ -53,7 +53,7 @@ class UserGroupServiceTest extends TestBase
     @Test
     void addUserToUserGroup()
     {
-        CreateUserGroupResult userGroup = userGroupService.createGroup(NewUserGroupRequest.builder()
+        CreateUserGroupResult userGroup = userGroupService.createGroup(CreateUserGroupRequest.builder()
                         .name("group1")
                         .description("description1")
                         .build());
@@ -72,7 +72,7 @@ class UserGroupServiceTest extends TestBase
     @Test
     void removeUserFromUserGroup()
     {
-        CreateUserGroupResult userGroup = userGroupService.createGroup(NewUserGroupRequest.builder()
+        CreateUserGroupResult userGroup = userGroupService.createGroup(CreateUserGroupRequest.builder()
                         .name("group1")
                         .description("description1")
                         .build());
@@ -91,11 +91,11 @@ class UserGroupServiceTest extends TestBase
     @Test
     void getAllUserGroupsUserBelongsTo()
     {
-        CreateUserGroupResult userGroup1 = userGroupService.createGroup(NewUserGroupRequest.builder()
+        CreateUserGroupResult userGroup1 = userGroupService.createGroup(CreateUserGroupRequest.builder()
                         .name("group1")
                         .description("description1")
                         .build());
-        CreateUserGroupResult userGroup2 = userGroupService.createGroup(NewUserGroupRequest.builder()
+        CreateUserGroupResult userGroup2 = userGroupService.createGroup(CreateUserGroupRequest.builder()
                         .name("group2")
                         .description("description2")
                         .build());

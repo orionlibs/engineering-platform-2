@@ -4,14 +4,9 @@ import com.dimi.core.api.APIResponse;
 import com.dimi.project.user_group.AddUserToUserGroupResult;
 import com.dimi.project.user_group.UserGroupError;
 import com.dimi.project.user_group.UserGroupService;
+import com.dimi.project.user_group.request.AddUserToUserGroupRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,16 +36,5 @@ public class AddUserToUserGroupAPI
             }
         }
         return ResponseEntity.created(null).body(new APIResponse());
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    public static class AddUserToUserGroupRequest implements Serializable
-    {
-        @NotNull(message = "userID must not be blank")
-        private UUID userID;
     }
 }

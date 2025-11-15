@@ -2,11 +2,11 @@ package com.dimi.project.user_group;
 
 import com.dimi.core.data.DuplicateRecordException;
 import com.dimi.core.exception.AError;
-import com.dimi.project.api.user_group.AddUserToUserGroupAPI.AddUserToUserGroupRequest;
 import com.dimi.project.model.user_group.UserGroupModel;
 import com.dimi.project.model.user_group.UserGroupsDAO;
 import com.dimi.project.model.user_group.UserInUserGroupModel;
 import com.dimi.project.model.user_group.UsersInUserGroupsDAO;
+import com.dimi.project.user_group.request.AddUserToUserGroupRequest;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

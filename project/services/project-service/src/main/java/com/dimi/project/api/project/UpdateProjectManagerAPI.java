@@ -4,14 +4,9 @@ import com.dimi.core.api.APIResponse;
 import com.dimi.project.project.ProjectError;
 import com.dimi.project.project.ProjectService;
 import com.dimi.project.project.UpdateProjectManagerResult;
+import com.dimi.project.project.request.UpdateProjectManagerRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import java.io.Serializable;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +24,7 @@ public class UpdateProjectManagerAPI
 
 
     @PatchMapping(value = "/projects/{projectID}/managers")
-    public ResponseEntity<APIResponse> updateProjectManage(@PathVariable(name = "projectID") UUID projectID, @Valid @RequestBody ProjectManagerRequest request)
+    public ResponseEntity<APIResponse> updateProjectManage(@PathVariable(name = "projectID") UUID projectID, @Valid @RequestBody UpdateProjectManagerRequest request)
     {
         UpdateProjectManagerResult result = projectService.updateManager(projectID, request.getManagerUserID());
         if(result.getError() != null)
@@ -41,16 +36,5 @@ public class UpdateProjectManagerAPI
             }
         }
         return ResponseEntity.ok(new APIResponse());
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    public static class ProjectManagerRequest implements Serializable
-    {
-        @NotBlank(message = "managerUserID must not be blank")
-        private UUID managerUserID;
     }
 }

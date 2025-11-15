@@ -1,12 +1,12 @@
 package com.dimi.project.user_group;
 
-import com.dimi.project.api.user_group.AddUserToUserGroupAPI.AddUserToUserGroupRequest;
-import com.dimi.project.api.user_group.CreateUserGroupAPI.NewUserGroupRequest;
-import com.dimi.project.api.user_group.UpdateUserGroupAPI.UpdateUserGroupRequest;
 import com.dimi.project.model.user_group.UserGroupModel;
 import com.dimi.project.model.user_group.UserGroupsDAO;
 import com.dimi.project.model.user_group.UserInUserGroupModel;
 import com.dimi.project.model.user_group.UsersInUserGroupsDAO;
+import com.dimi.project.user_group.request.AddUserToUserGroupRequest;
+import com.dimi.project.user_group.request.CreateUserGroupRequest;
+import com.dimi.project.user_group.request.UpdateUserGroupRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,7 +26,7 @@ public class UserGroupService
 
 
     @Transactional
-    public CreateUserGroupResult createGroup(NewUserGroupRequest request)
+    public CreateUserGroupResult createGroup(CreateUserGroupRequest request)
     {
         return userGroupCreator.createGroup(request);
     }

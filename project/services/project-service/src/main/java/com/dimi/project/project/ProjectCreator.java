@@ -1,9 +1,9 @@
 package com.dimi.project.project;
 
 import com.dimi.core.data.DuplicateRecordException;
-import com.dimi.project.api.project.CreateProjectAPI.NewProjectRequest;
 import com.dimi.project.model.project.ProjectModel;
 import com.dimi.project.model.project.ProjectsDAO;
+import com.dimi.project.project.request.CreateProjectRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ class ProjectCreator
 
 
     @Transactional
-    CreateProjectResult createProject(NewProjectRequest request)
+    CreateProjectResult createProject(CreateProjectRequest request)
     {
         ProjectModel model = new ProjectModel(request.getName(), request.getCode(), request.getType(), request.getDescription(), request.getAvatarURL());
         try

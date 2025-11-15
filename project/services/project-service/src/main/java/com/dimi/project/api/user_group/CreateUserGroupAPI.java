@@ -3,13 +3,8 @@ package com.dimi.project.api.user_group;
 import com.dimi.core.api.APIResponse;
 import com.dimi.project.user_group.CreateUserGroupResult;
 import com.dimi.project.user_group.UserGroupService;
+import com.dimi.project.user_group.request.CreateUserGroupRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import java.io.Serializable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,21 +20,9 @@ public class CreateUserGroupAPI
 
 
     @PostMapping(value = "/projects/user-groups")
-    public ResponseEntity<APIResponse> createUserGroup(@Valid @RequestBody NewUserGroupRequest request)
+    public ResponseEntity<APIResponse> createUserGroup(@Valid @RequestBody CreateUserGroupRequest request)
     {
         CreateUserGroupResult result = userGroupService.createGroup(request);
         return ResponseEntity.created(null).body(new APIResponse());
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    public static class NewUserGroupRequest implements Serializable
-    {
-        @NotBlank(message = "name must not be blank")
-        private String name;
-        private String description;
     }
 }

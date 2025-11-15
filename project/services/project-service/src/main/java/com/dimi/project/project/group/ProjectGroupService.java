@@ -1,9 +1,9 @@
 package com.dimi.project.project.group;
 
-import com.dimi.project.api.project.group.CreateProjectGroupAPI.NewProjectGroupRequest;
-import com.dimi.project.api.project.group.UpdateProjectGroupAPI.UpdateProjectGroupRequest;
 import com.dimi.project.model.project.group.ProjectGroupModel;
 import com.dimi.project.model.project.group.ProjectGroupsDAO;
+import com.dimi.project.project.group.request.CreateProjectGroupRequest;
+import com.dimi.project.project.group.request.UpdateProjectGroupRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,7 +20,7 @@ public class ProjectGroupService
 
 
     @Transactional
-    public CreateProjectGroupResult createProjectGroup(NewProjectGroupRequest newProjectGroupAttributes)
+    public CreateProjectGroupResult createProjectGroup(CreateProjectGroupRequest newProjectGroupAttributes)
     {
         return projectGroupCreator.createProjectGroup(newProjectGroupAttributes);
     }

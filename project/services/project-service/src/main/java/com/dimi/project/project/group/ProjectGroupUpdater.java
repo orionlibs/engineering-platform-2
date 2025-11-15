@@ -2,9 +2,9 @@ package com.dimi.project.project.group;
 
 import com.dimi.core.data.DuplicateRecordException;
 import com.dimi.core.exception.AError;
-import com.dimi.project.api.project.group.UpdateProjectGroupAPI.UpdateProjectGroupRequest;
 import com.dimi.project.model.project.group.ProjectGroupModel;
 import com.dimi.project.model.project.group.ProjectGroupsDAO;
+import com.dimi.project.project.group.request.UpdateProjectGroupRequest;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
 package com.dimi.project.project.group;
 
 import com.dimi.core.data.DuplicateRecordException;
-import com.dimi.project.api.project.group.CreateProjectGroupAPI.NewProjectGroupRequest;
 import com.dimi.project.model.project.group.ProjectGroupModel;
 import com.dimi.project.model.project.group.ProjectGroupsDAO;
+import com.dimi.project.project.group.request.CreateProjectGroupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ class ProjectGroupCreator
 
 
     @Transactional
-    CreateProjectGroupResult createProjectGroup(NewProjectGroupRequest newProjectGroupAttributes)
+    CreateProjectGroupResult createProjectGroup(CreateProjectGroupRequest newProjectGroupAttributes)
     {
         ProjectGroupModel projectGroup = new ProjectGroupModel(newProjectGroupAttributes.getName(), newProjectGroupAttributes.getDescription());
         try

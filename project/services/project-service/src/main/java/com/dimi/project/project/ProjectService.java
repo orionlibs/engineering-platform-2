@@ -1,10 +1,10 @@
 package com.dimi.project.project;
 
-import com.dimi.project.api.project.CreateProjectAPI.NewProjectRequest;
-import com.dimi.project.api.project.UpdateProjectAPI.UpdateProjectRequest;
 import com.dimi.project.model.project.ProjectModel;
 import com.dimi.project.model.project.ProjectType;
 import com.dimi.project.model.project.ProjectsDAO;
+import com.dimi.project.project.request.CreateProjectRequest;
+import com.dimi.project.project.request.UpdateProjectRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,7 +23,7 @@ public class ProjectService
 
 
     @Transactional
-    public CreateProjectResult createProject(NewProjectRequest request)
+    public CreateProjectResult createProject(CreateProjectRequest request)
     {
         return projectCreator.createProject(request);
     }

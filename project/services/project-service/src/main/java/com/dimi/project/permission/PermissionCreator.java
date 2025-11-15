@@ -1,9 +1,9 @@
 package com.dimi.project.permission;
 
 import com.dimi.core.data.DuplicateRecordException;
-import com.dimi.project.api.project.permission.CreateProjectPermissionAPI.NewPermissionRequest;
 import com.dimi.project.model.project.permission.PermissionModel;
 import com.dimi.project.model.project.permission.PermissionsDAO;
+import com.dimi.project.permission.request.CreateProjectPermissionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ class PermissionCreator
 
 
     @Transactional
-    CreatePermissionResult createPermission(NewPermissionRequest request)
+    CreatePermissionResult createPermission(CreateProjectPermissionRequest request)
     {
         PermissionModel model = new PermissionModel(request.getName(), request.getDescription());
         try

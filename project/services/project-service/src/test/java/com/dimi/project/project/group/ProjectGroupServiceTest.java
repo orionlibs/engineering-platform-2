@@ -3,11 +3,11 @@ package com.dimi.project.project.group;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.dimi.project.TestBase;
-import com.dimi.project.api.project.group.CreateProjectGroupAPI.NewProjectGroupRequest;
-import com.dimi.project.api.project.group.UpdateProjectGroupAPI.UpdateProjectGroupRequest;
 import com.dimi.project.model.project.ProjectModel;
 import com.dimi.project.model.project.group.ProjectGroupModel;
 import com.dimi.project.project.ProjectService;
+import com.dimi.project.project.group.request.CreateProjectGroupRequest;
+import com.dimi.project.project.group.request.UpdateProjectGroupRequest;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,7 @@ class ProjectGroupServiceTest extends TestBase
     @Test
     void createProjectGroup()
     {
-        CreateProjectGroupResult group = projectGroupService.createProjectGroup(NewProjectGroupRequest.builder()
+        CreateProjectGroupResult group = projectGroupService.createProjectGroup(CreateProjectGroupRequest.builder()
                         .name("New Project Group")
                         .description("Description")
                         .build());
@@ -52,7 +52,7 @@ class ProjectGroupServiceTest extends TestBase
     @Test
     void updateProjectGroup()
     {
-        CreateProjectGroupResult group1 = projectGroupService.createProjectGroup(NewProjectGroupRequest.builder()
+        CreateProjectGroupResult group1 = projectGroupService.createProjectGroup(CreateProjectGroupRequest.builder()
                         .name("New Project Group")
                         .description("Description")
                         .build());
@@ -73,7 +73,7 @@ class ProjectGroupServiceTest extends TestBase
     @Test
     void getByID()
     {
-        CreateProjectGroupResult group1 = projectGroupService.createProjectGroup(NewProjectGroupRequest.builder()
+        CreateProjectGroupResult group1 = projectGroupService.createProjectGroup(CreateProjectGroupRequest.builder()
                         .name("New Project Group")
                         .description("Description")
                         .build());
@@ -91,7 +91,7 @@ class ProjectGroupServiceTest extends TestBase
     @Test
     void delete()
     {
-        CreateProjectGroupResult group1 = projectGroupService.createProjectGroup(NewProjectGroupRequest.builder()
+        CreateProjectGroupResult group1 = projectGroupService.createProjectGroup(CreateProjectGroupRequest.builder()
                         .name("New Project Group")
                         .description("Description")
                         .build());

@@ -1,7 +1,5 @@
 package com.dimi.project.permission;
 
-import com.dimi.project.api.project.permission.AssignProjectPermissionToUserAPI.AssignPermissionToUserRequest;
-import com.dimi.project.api.project.permission.CreateProjectPermissionAPI.NewPermissionRequest;
 import com.dimi.project.model.project.ProjectModel;
 import com.dimi.project.model.project.permission.PermissionAssignedToUserModel;
 import com.dimi.project.model.project.permission.PermissionAssociatedWithProjectModel;
@@ -10,6 +8,7 @@ import com.dimi.project.model.project.permission.PermissionsAssignedToUsersDAO;
 import com.dimi.project.model.project.permission.PermissionsAssociatedWithProjectsDAO;
 import com.dimi.project.model.project.permission.PermissionsDAO;
 import com.dimi.project.model.user_group.UserInUserGroupModel;
+import com.dimi.project.permission.request.CreateProjectPermissionRequest;
 import com.dimi.project.project.ProjectService;
 import com.dimi.project.user_group.UserGroupService;
 import java.util.ArrayList;
@@ -39,16 +38,16 @@ public class PermissionService
 
 
     @Transactional
-    public CreatePermissionResult createPermission(NewPermissionRequest request)
+    public CreatePermissionResult createPermission(CreateProjectPermissionRequest request)
     {
         return permissionCreator.createPermission(request);
     }
 
 
     @Transactional
-    public AssignPermissionToUserResult assignPermissionToUser(UUID permissionID, AssignPermissionToUserRequest request)
+    public AssignPermissionToUserResult assignPermissionToUser(UUID permissionID, UUID userID)
     {
-        return permissionToUserAssigner.assignPermissionToUser(permissionID, request);
+        return permissionToUserAssigner.assignPermissionToUser(permissionID, userID);
     }
 
 

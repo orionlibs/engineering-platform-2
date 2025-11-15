@@ -1,19 +1,12 @@
 package com.dimi.project.api.project;
 
 import com.dimi.core.api.APIResponse;
-import com.dimi.project.model.project.ProjectType;
 import com.dimi.project.project.ProjectError;
 import com.dimi.project.project.ProjectService;
 import com.dimi.project.project.UpdateProjectResult;
+import com.dimi.project.project.request.UpdateProjectRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,21 +36,5 @@ public class UpdateProjectAPI
             }
         }
         return ResponseEntity.ok(new APIResponse());
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    public static class UpdateProjectRequest implements Serializable
-    {
-        @NotBlank(message = "name must not be blank")
-        private String name;
-        @NotBlank(message = "code must not be blank")
-        private String code;
-        private String description;
-        @NotNull(message = "type cannot be null")
-        private ProjectType.Type type;
     }
 }

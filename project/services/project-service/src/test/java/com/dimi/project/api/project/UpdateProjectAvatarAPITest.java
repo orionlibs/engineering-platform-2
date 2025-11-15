@@ -5,10 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.dimi.core.api.APIResponse;
 import com.dimi.core.test.APITestUtils;
 import com.dimi.project.TestBase;
-import com.dimi.project.api.project.UpdateProjectAvatarAPI.ProjectAvatarRequest;
 import com.dimi.project.model.project.ProjectModel;
 import com.dimi.project.model.project.ProjectType.Type;
 import com.dimi.project.project.ProjectService;
+import com.dimi.project.project.request.UpdateProjectAvatarRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +44,7 @@ class UpdateProjectAvatarAPITest extends TestBase
     {
         ProjectModel proj = saveProject("project1", "PR1", Type.ENGINEERING, "description1", "https://some.com/image.jpg");
         RestAssured.baseURI += "/projects/" + proj.getId() + "/avatars";
-        ProjectAvatarRequest request = ProjectAvatarRequest.builder()
+        UpdateProjectAvatarRequest request = UpdateProjectAvatarRequest.builder()
                         .avatarURL("https://some.com/image.jpg")
                         .build();
         Response response = apiUtils.makePatchAPICall(request, headers);
@@ -57,7 +57,7 @@ class UpdateProjectAvatarAPITest extends TestBase
     {
         ProjectModel proj = saveProject("project1", "PR1", Type.ENGINEERING, "description1", "https://some.com/image.jpg");
         RestAssured.baseURI += "/projects/" + proj.getId() + "/avatars";
-        ProjectAvatarRequest request = ProjectAvatarRequest.builder().build();
+        UpdateProjectAvatarRequest request = UpdateProjectAvatarRequest.builder().build();
         Response response = apiUtils.makePatchAPICall(request, headers);
         assertThat(response.statusCode()).isEqualTo(400);
         APIResponse body = response.as(APIResponse.class);

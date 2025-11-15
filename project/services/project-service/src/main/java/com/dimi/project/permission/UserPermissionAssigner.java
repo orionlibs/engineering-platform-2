@@ -2,7 +2,6 @@ package com.dimi.project.permission;
 
 import com.dimi.core.data.DuplicateRecordException;
 import com.dimi.core.exception.AError;
-import com.dimi.project.api.project.permission.AssignProjectPermissionToUserAPI.AssignPermissionToUserRequest;
 import com.dimi.project.model.project.permission.PermissionAssignedToUserModel;
 import com.dimi.project.model.project.permission.PermissionModel;
 import com.dimi.project.model.project.permission.PermissionsAssignedToUsersDAO;
@@ -22,7 +21,7 @@ class UserPermissionAssigner
 
 
     @Transactional
-    AssignPermissionToUserResult assignPermissionToUser(UUID permissionID, AssignPermissionToUserRequest request)
+    AssignPermissionToUserResult assignPermissionToUser(UUID permissionID, UUID userID)
     {
         Optional<PermissionModel> permissionWrap = dao.findById(permissionID);
         if(permissionWrap.isPresent())
@@ -30,7 +29,7 @@ class UserPermissionAssigner
             PermissionModel permission = permissionWrap.get();
             try
             {
-                PermissionAssignedToUserModel model = new PermissionAssignedToUserModel(permission, request.getUserID());
+                PermissionAssignedToUserModel model = new PermissionAssignedToUserModel(permission, userID);
                 PermissionAssignedToUserModel saved = permissionsAssignedToUsersDAO.save(model);
                 permissionsAssignedToUsersDAO.flush();
                 return AssignPermissionToUserResult.builder()

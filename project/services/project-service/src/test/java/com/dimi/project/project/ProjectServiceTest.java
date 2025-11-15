@@ -3,10 +3,10 @@ package com.dimi.project.project;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.dimi.project.TestBase;
-import com.dimi.project.api.project.UpdateProjectAPI.UpdateProjectRequest;
 import com.dimi.project.model.project.ProjectModel;
 import com.dimi.project.model.project.ProjectType;
 import com.dimi.project.model.project.ProjectType.Type;
+import com.dimi.project.project.request.UpdateProjectRequest;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;

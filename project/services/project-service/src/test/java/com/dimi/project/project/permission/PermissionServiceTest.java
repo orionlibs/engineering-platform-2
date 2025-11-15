@@ -3,10 +3,6 @@ package com.dimi.project.project.permission;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.dimi.project.TestBase;
-import com.dimi.project.api.project.permission.AssignProjectPermissionToUserAPI.AssignPermissionToUserRequest;
-import com.dimi.project.api.project.permission.CreateProjectPermissionAPI.NewPermissionRequest;
-import com.dimi.project.api.user_group.AddUserToUserGroupAPI.AddUserToUserGroupRequest;
-import com.dimi.project.api.user_group.CreateUserGroupAPI.NewUserGroupRequest;
 import com.dimi.project.model.project.permission.PermissionAssignedToUserModel;
 import com.dimi.project.model.project.permission.PermissionModel;
 import com.dimi.project.model.project.permission.PermissionsAssignedToUsersDAO;
@@ -15,9 +11,12 @@ import com.dimi.project.permission.AssignPermissionToUserResult;
 import com.dimi.project.permission.CreatePermissionResult;
 import com.dimi.project.permission.PermissionService;
 import com.dimi.project.permission.UnassignPermissionToUserGroupResult;
+import com.dimi.project.permission.request.CreateProjectPermissionRequest;
 import com.dimi.project.user_group.AddUserToUserGroupResult;
 import com.dimi.project.user_group.CreateUserGroupResult;
 import com.dimi.project.user_group.UserGroupService;
+import com.dimi.project.user_group.request.AddUserToUserGroupRequest;
+import com.dimi.project.user_group.request.CreateUserGroupRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -48,7 +47,7 @@ class PermissionServiceTest extends TestBase
     @Test
     void createPermission()
     {
-        CreatePermissionResult permission = permissionService.createPermission(NewPermissionRequest.builder()
+        CreatePermissionResult permission = permissionService.createPermission(CreateProjectPermissionRequest.builder()
                         .name("permission1")
                         .description("description1")
                         .build());
@@ -61,21 +60,17 @@ class PermissionServiceTest extends TestBase
     @Test
     void assignPermissionToUser()
     {
-        CreatePermissionResult permission1 = permissionService.createPermission(NewPermissionRequest.builder()
+        CreatePermissionResult permission1 = permissionService.createPermission(CreateProjectPermissionRequest.builder()
                         .name("permission1")
                         .description("description1")
                         .build());
-        CreatePermissionResult permission2 = permissionService.createPermission(NewPermissionRequest.builder()
+        CreatePermissionResult permission2 = permissionService.createPermission(CreateProjectPermissionRequest.builder()
                         .name("permission2")
                         .description("description2")
                         .build());
         UUID userID = UUID.randomUUID();
-        AssignPermissionToUserResult assignment1 = permissionService.assignPermissionToUser(permission1.getPermission().getId(), AssignPermissionToUserRequest.builder()
-                        .userID(userID)
-                        .build());
-        AssignPermissionToUserResult assignment2 = permissionService.assignPermissionToUser(permission2.getPermission().getId(), AssignPermissionToUserRequest.builder()
-                        .userID(userID)
-                        .build());
+        AssignPermissionToUserResult assignment1 = permissionService.assignPermissionToUser(permission1.getPermission().getId(), userID);
+        AssignPermissionToUserResult assignment2 = permissionService.assignPermissionToUser(permission2.getPermission().getId(), userID);
         Optional<PermissionAssignedToUserModel> result1 = permissionsAssignedToUsersDAO.findByPermissionAndUserID(permission1.getPermission(), userID);
         assertThat(result1.get().getPermission().getName()).isEqualTo(permission1.getPermission().getName());
         Optional<PermissionAssignedToUserModel> result2 = permissionsAssignedToUsersDAO.findByPermissionAndUserID(permission2.getPermission(), userID);
@@ -89,11 +84,11 @@ class PermissionServiceTest extends TestBase
     @Test
     void assignPermissionToUserGroup()
     {
-        CreatePermissionResult permission1 = permissionService.createPermission(NewPermissionRequest.builder()
+        CreatePermissionResult permission1 = permissionService.createPermission(CreateProjectPermissionRequest.builder()
                         .name("permission1")
                         .description("description1")
                         .build());
-        CreateUserGroupResult userGroup = userGroupService.createGroup(NewUserGroupRequest.builder()
+        CreateUserGroupResult userGroup = userGroupService.createGroup(CreateUserGroupRequest.builder()
                         .name("group1")
                         .description("description1")
                         .build());
@@ -114,21 +109,17 @@ class PermissionServiceTest extends TestBase
     @Test
     void unassignPermissionFromUser()
     {
-        CreatePermissionResult permission1 = permissionService.createPermission(NewPermissionRequest.builder()
+        CreatePermissionResult permission1 = permissionService.createPermission(CreateProjectPermissionRequest.builder()
                         .name("permission1")
                         .description("description1")
                         .build());
-        CreatePermissionResult permission2 = permissionService.createPermission(NewPermissionRequest.builder()
+        CreatePermissionResult permission2 = permissionService.createPermission(CreateProjectPermissionRequest.builder()
                         .name("permission2")
                         .description("description2")
                         .build());
         UUID userID = UUID.randomUUID();
-        AssignPermissionToUserResult assignment1 = permissionService.assignPermissionToUser(permission1.getPermission().getId(), AssignPermissionToUserRequest.builder()
-                        .userID(userID)
-                        .build());
-        AssignPermissionToUserResult assignment2 = permissionService.assignPermissionToUser(permission2.getPermission().getId(), AssignPermissionToUserRequest.builder()
-                        .userID(userID)
-                        .build());
+        AssignPermissionToUserResult assignment1 = permissionService.assignPermissionToUser(permission1.getPermission().getId(), userID);
+        AssignPermissionToUserResult assignment2 = permissionService.assignPermissionToUser(permission2.getPermission().getId(), userID);
         permissionService.unassignPermissionFromUser(permission1.getPermission().getId(), userID);
         Optional<PermissionAssignedToUserModel> result1 = permissionsAssignedToUsersDAO.findByPermissionAndUserID(permission1.getPermission(), userID);
         assertThat(result1.isEmpty()).isTrue();
@@ -140,11 +131,11 @@ class PermissionServiceTest extends TestBase
     @Test
     void unassignPermissionFromUserGroup()
     {
-        CreatePermissionResult permission1 = permissionService.createPermission(NewPermissionRequest.builder()
+        CreatePermissionResult permission1 = permissionService.createPermission(CreateProjectPermissionRequest.builder()
                         .name("permission1")
                         .description("description1")
                         .build());
-        CreateUserGroupResult userGroup = userGroupService.createGroup(NewUserGroupRequest.builder()
+        CreateUserGroupResult userGroup = userGroupService.createGroup(CreateUserGroupRequest.builder()
                         .name("group1")
                         .description("description1")
                         .build());
@@ -168,21 +159,17 @@ class PermissionServiceTest extends TestBase
     @Test
     void getAllPermissionsAssignedToUser()
     {
-        CreatePermissionResult permission1 = permissionService.createPermission(NewPermissionRequest.builder()
+        CreatePermissionResult permission1 = permissionService.createPermission(CreateProjectPermissionRequest.builder()
                         .name("permission1")
                         .description("description1")
                         .build());
-        CreatePermissionResult permission2 = permissionService.createPermission(NewPermissionRequest.builder()
+        CreatePermissionResult permission2 = permissionService.createPermission(CreateProjectPermissionRequest.builder()
                         .name("permission2")
                         .description("description2")
                         .build());
         UUID userID = UUID.randomUUID();
-        AssignPermissionToUserResult assignment1 = permissionService.assignPermissionToUser(permission1.getPermission().getId(), AssignPermissionToUserRequest.builder()
-                        .userID(userID)
-                        .build());
-        AssignPermissionToUserResult assignment2 = permissionService.assignPermissionToUser(permission2.getPermission().getId(), AssignPermissionToUserRequest.builder()
-                        .userID(userID)
-                        .build());
+        AssignPermissionToUserResult assignment1 = permissionService.assignPermissionToUser(permission1.getPermission().getId(), userID);
+        AssignPermissionToUserResult assignment2 = permissionService.assignPermissionToUser(permission2.getPermission().getId(), userID);
         List<PermissionAssignedToUserModel> result1 = permissionService.getAllPermissionsAssignedToUser(userID);
         assertThat(result1.size()).isEqualTo(2);
     }

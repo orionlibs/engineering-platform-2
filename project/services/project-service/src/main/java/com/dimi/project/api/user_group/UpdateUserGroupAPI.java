@@ -4,14 +4,9 @@ import com.dimi.core.api.APIResponse;
 import com.dimi.project.user_group.UpdateUserGroupResult;
 import com.dimi.project.user_group.UserGroupError;
 import com.dimi.project.user_group.UserGroupService;
+import com.dimi.project.user_group.request.UpdateUserGroupRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import java.io.Serializable;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,17 +36,5 @@ public class UpdateUserGroupAPI
             }
         }
         return ResponseEntity.ok(new APIResponse());
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    public static class UpdateUserGroupRequest implements Serializable
-    {
-        @NotBlank(message = "name must not be blank")
-        private String name;
-        private String description;
     }
 }

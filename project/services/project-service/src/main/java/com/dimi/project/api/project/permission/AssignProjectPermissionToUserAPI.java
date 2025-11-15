@@ -4,14 +4,9 @@ import com.dimi.core.api.APIResponse;
 import com.dimi.project.permission.AssignPermissionToUserResult;
 import com.dimi.project.permission.PermissionError;
 import com.dimi.project.permission.PermissionService;
+import com.dimi.project.permission.request.AssignProjectPermissionToUserRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +24,9 @@ public class AssignProjectPermissionToUserAPI
 
 
     @PostMapping(value = "/projects/permissions/{permissionID}/assignees")
-    public ResponseEntity<APIResponse> assignProjectPermissionToUser(@PathVariable(name = "permissionID") UUID permissionID, @Valid @RequestBody AssignPermissionToUserRequest request)
+    public ResponseEntity<APIResponse> assignProjectPermissionToUser(@PathVariable(name = "permissionID") UUID permissionID, @Valid @RequestBody AssignProjectPermissionToUserRequest request)
     {
-        AssignPermissionToUserResult result = permissionService.assignPermissionToUser(permissionID, request);
+        AssignPermissionToUserResult result = permissionService.assignPermissionToUser(permissionID, request.getUserID());
         if(result.getError() != null)
         {
             APIResponse response = APIResponse.ofError(result.getError());
@@ -41,16 +36,5 @@ public class AssignProjectPermissionToUserAPI
             }
         }
         return ResponseEntity.created(null).body(new APIResponse());
-    }
-
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    public static class AssignPermissionToUserRequest implements Serializable
-    {
-        @NotNull(message = "userID must not be blank")
-        private UUID userID;
     }
 }

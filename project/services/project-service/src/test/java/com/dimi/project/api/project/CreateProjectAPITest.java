@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.dimi.core.api.APIResponse;
 import com.dimi.core.test.APITestUtils;
 import com.dimi.project.TestBase;
-import com.dimi.project.api.project.CreateProjectAPI.NewProjectRequest;
 import com.dimi.project.model.project.ProjectType.Type;
+import com.dimi.project.project.request.CreateProjectRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +39,7 @@ class CreateProjectAPITest extends TestBase
     void createProject_success()
     {
         RestAssured.baseURI += "/projects";
-        NewProjectRequest request = NewProjectRequest.builder()
+        CreateProjectRequest request = CreateProjectRequest.builder()
                         .name("Test Project")
                         .code("Test Code")
                         .description("Test Description")
@@ -55,7 +55,7 @@ class CreateProjectAPITest extends TestBase
     void createProject_invalidInputs()
     {
         RestAssured.baseURI += "/projects";
-        NewProjectRequest request = NewProjectRequest.builder().build();
+        CreateProjectRequest request = CreateProjectRequest.builder().build();
         Response response = apiUtils.makePostAPICall(request, headers);
         assertThat(response.statusCode()).isEqualTo(400);
         APIResponse body = response.as(APIResponse.class);
